@@ -3,6 +3,18 @@ import { useState, useEffect, useId } from "react";
 import { Link } from "react-router";
 import {IconArrowRight,IconBolt,IconBooks,IconCheck,IconCircleCheck,IconDatabase,IconDownload,IconFileSpreadsheet,IconFlag,IconHeartHandshake,IconLock,IconMapPin,IconRocket,IconSearch,IconSparkles,IconSpeakerphone,IconTarget,IconTelescope,} from "@tabler/icons-react";
 import { productUrl } from "../lib/catalog.js";
+import { motion } from "motion/react";
+import { LampContainer } from "./ui/lamp.js";
+import { BentoGrid, BentoGridItem } from "./ui/bento-grid.js";
+import {
+  IconArrowWaveRightUp,
+  IconBoxAlignRightFilled,
+  IconBoxAlignTopLeft,
+  IconClipboardCopy,
+  IconFileBroken,
+  IconSignature,
+  IconTableColumn,
+} from "@tabler/icons-react";
 
 function VerifiedCell({ children, className = "" }) {
   return (
@@ -256,7 +268,57 @@ export function DataStationLanding({ storefrontBaseUrl = "" }) {
 
   const buyBtnClass =
     "inline-flex items-center gap-1.5 rounded-lg border-0 bg-gradient-to-br from-ds-m-orange to-ds-m-orange2 px-[18px] py-2 font-ds-body text-[12.5px] font-semibold text-white shadow-[0_0_0_1px_rgb(240_74_29/0.35),0_4px_16px_rgb(240_74_29/0.28)] transition-all duration-200 hover:scale-[1.04] hover:shadow-[0_0_0_1px_rgb(240_74_29/0.5),0_6px_24px_rgb(240_74_29/0.4)]";
+  
+  const Skeleton = () => (
+    <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>
+  );
 
+  const msme_img = "/msme_data.png"
+  const items = [
+    {
+      title: "10,000 MSME Database",
+      description: "Structured dataset of 10,000 MSME companies across India — ready for sales, partnerships, research, and targeted outreach campaigns.",
+      header: <img src={msme_img} alt="MSME Data" className="h-50 w-full"/>,
+      icon: <IconClipboardCopy className="h-8 w-8 text-neutral-500" />,
+    },
+    {
+      title: "The Digital Revolution",
+      description: "Dive into the transformative power of technology.",
+      header: <Skeleton />,
+      icon: <IconFileBroken className="h-4 w-4 text-neutral-500" />,
+    },
+    {
+      title: "The Art of Design",
+      description: "Discover the beauty of thoughtful and functional design.",
+      header: <Skeleton />,
+      icon: <IconSignature className="h-4 w-4 text-neutral-500" />,
+    },
+    {
+      title: "The Power of Communication",
+      description:
+        "Understand the impact of effective communication in our lives.",
+      header: <Skeleton />,
+      icon: <IconTableColumn className="h-4 w-4 text-neutral-500" />,
+    },
+    {
+      title: "The Pursuit of Knowledge",
+      description: "Join the quest for understanding and enlightenment.",
+      header: <Skeleton />,
+      icon: <IconArrowWaveRightUp className="h-4 w-4 text-neutral-500" />,
+    },
+    {
+      title: "The Joy of Creation",
+      description: "Experience the thrill of bringing ideas to life.",
+      header: <Skeleton />,
+      icon: <IconBoxAlignTopLeft className="h-4 w-4 text-neutral-500" />,
+    },
+    {
+      title: "The Spirit of Adventure",
+      description: "Embark on exciting journeys and thrilling discoveries.",
+      header: <Skeleton />,
+      icon: <IconBoxAlignRightFilled className="h-4 w-4 text-neutral-500" />,
+    },
+  ]
   return (
     <div className="relative min-h-screen overflow-x-hidden font-ds-body text-ds-m-t1 antialiased">
 
@@ -300,11 +362,21 @@ export function DataStationLanding({ storefrontBaseUrl = "" }) {
           <h2 className="font-ds-display text-[clamp(28px,3.5vw,46px)] font-bold leading-[1.18] tracking-[-0.3px] text-ds-m-t1">
             What We Offer
           </h2>
-          <p className="mb-0 max-w-130 text-[15.5px] leading-[1.8] text-ds-m-muted">
-            Curated datasets delivered in Excel for immediate use.
-          </p>
         </div>
 
+        <BentoGrid className="max-w-4xl mx-auto">
+          {items.map((item, i) => (
+            <BentoGridItem
+              key={i}
+              title={item.title}
+              description={item.description}
+              header={item.header}
+              icon={item.icon}
+              className={i === 0 || i === 3 || i === 6 ? "md:col-span-2" : ""}
+            />
+          ))}
+        </BentoGrid>
+        
         <div className="mt-14 grid grid-cols-1 gap-3.5 min-[1100px]:grid-cols-12 min-[1100px]:grid-rows-[auto]">
           <BCard
             className="col-span-12 flex min-h-0 flex-col min-[1100px]:col-span-7 min-[1100px]:row-span-3"
@@ -324,7 +396,7 @@ export function DataStationLanding({ storefrontBaseUrl = "" }) {
               Structured dataset of 10,000 MSME companies across India — ready for sales,
               partnerships, research, and targeted outreach campaigns.
             </p>
-            <div className="mt-[18px]">
+            <div className="mt-4.5">
               <div className="mb-1 grid grid-cols-[2fr_1.4fr_1fr_0.9fr] gap-2.5 rounded-md bg-ds-m-orange/10 px-3 py-2 text-[10.5px] font-bold uppercase tracking-[0.5px] text-ds-m-orange">
                 {["Company", "Industry", "City", "Verified"].map((h) => (
                   <div key={h}>{h}</div>
