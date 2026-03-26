@@ -12,12 +12,10 @@ export default function HomePage() {
   const { storefrontBaseUrl, sampleDownloadUrl } = useOutletContext();
 
   return (
-    <s-page heading="Data Station">
-      <DataStationLanding
-        storefrontBaseUrl={storefrontBaseUrl}
-        sampleDownloadUrl={sampleDownloadUrl}
-      />
-    </s-page>
+    <DataStationLanding
+      storefrontBaseUrl={storefrontBaseUrl}
+      sampleDownloadUrl={sampleDownloadUrl}
+    />
   );
 }
 

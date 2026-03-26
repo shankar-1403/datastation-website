@@ -30,9 +30,7 @@ export function DsAppNavbar({ sampleDownloadUrl = "" }) {
 
   return (
     <nav
-      className={`fixed left-0 right-0 top-0 z-500 py-2 flex items-center justify-between border-b border-zinc-200 px-5 font-ds-body backdrop-blur-xl backdrop-saturate-200 transition-colors duration-300 ${
-        scrolled ? "bg-white/95 shadow-sm" : "bg-white/90"
-      }`}
+      className={`fixed left-0 right-0 top-0 z-500 py-2 flex items-center justify-between border-b-2 border-gray/60 bg-white/90 backdrop-blur-xl px-5 font-ds-body`}
     >
       <Link to="/app">
         <img src={datastation} alt="Datastation Logo" className="h-16"/>
@@ -43,7 +41,7 @@ export function DsAppNavbar({ sampleDownloadUrl = "" }) {
             <li key={l.label}>
               <Link
                 to={l.to}
-                className="relative text-base font-medium text-ds-m-muted no-underline transition-colors duration-200 after:absolute after:bottom-[-2px] after:left-0 after:h-[1.5px] after:w-0 after:bg-ds-m-orange after:transition-[width] after:duration-300 hover:text-ds-m-t1 hover:after:w-full"
+                className="relative text-base font-medium text-black no-underline transition-colors duration-200 after:absolute after:-bottom-0.5 after:left-0 after:h-[1.5px] after:w-0 after:bg-ds-m-orange after:transition-[width] after:duration-300 hover:text-ds-m-t1 hover:after:w-full"
               >
                 {l.label}
               </Link>
@@ -51,24 +49,6 @@ export function DsAppNavbar({ sampleDownloadUrl = "" }) {
           ))}
         </ul>
         <div className="flex items-center gap-2.5">
-          {sampleDownloadUrl ? (
-            <a
-              href={sampleDownloadUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden items-center gap-1.5 rounded-lg border border-zinc-200 bg-transparent px-[18px] py-2 font-ds-body text-[13px] font-medium text-ds-m-muted transition-all duration-200 hover:border-ds-m-orange/50 hover:bg-ds-m-orange-dim hover:text-ds-m-t1 sm:inline-flex"
-            >
-              <IconDownload size={16} stroke={1.75} aria-hidden />
-              Download Sample
-            </a>
-          ) : (
-            <span
-              className="hidden cursor-not-allowed rounded-lg border border-dashed border-zinc-300 px-[18px] py-2 font-ds-body text-[13px] text-ds-m-soft sm:inline-block"
-              title="Set PUBLIC_SAMPLE_DOWNLOAD_URL in .env"
-            >
-              Download Sample
-            </span>
-          )}
           <Link to="/app/databases" className={nbtnOrClass}>
             Browse Databases
           </Link>

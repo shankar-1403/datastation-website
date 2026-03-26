@@ -29,7 +29,7 @@ export default function App() {
         <s-link href="/app/contact">Contact</s-link>
       </s-app-nav>
       <DsAppNavbar sampleDownloadUrl={sampleDownloadUrl} />
-      <div className="min-h-full bg-ds-grey-bg pt-[66px]">
+      <div className="min-h-full bg-ds-grey-bg">
         <Outlet
           context={{
             storefrontBaseUrl,
