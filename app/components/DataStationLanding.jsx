@@ -1,9 +1,7 @@
 /* eslint-disable react/prop-types -- presentational marketing page */
-import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import {IconArrowRight,IconBolt,IconBooks,IconCheck,IconCircleCheck,IconDatabase,IconDownload,IconFileSpreadsheet,IconFlag,IconHeartHandshake,IconLock,IconMapPin,IconRocket,IconSearch,IconSparkles,IconSpeakerphone,IconTarget,IconTelescope,IconShieldCheck,IconWorld} from "@tabler/icons-react";
+import {IconArrowRight,IconBolt,IconBooks,IconCheck,IconCircleCheck,IconDatabase,IconDownload,IconFileSpreadsheet,IconFlag,IconHeartHandshake,IconLock,IconRocket,IconSearch,IconSparkles,IconSpeakerphone,IconTarget,IconTelescope,IconShieldCheck,IconWorld} from "@tabler/icons-react";
 import { motion } from "motion/react";
-
 
 const TICK_SEP = "__TICK__";
 
@@ -27,10 +25,10 @@ const TICKER = [
 ];
 
 const WHY = [
-  { title: "Organized & Structured", desc: "Every dataset is professionally formatted — no data cleaning required before use." },
-  { title: "Business-Ready Formats", desc: "Delivered in Excel (.xlsx) so you can filter, sort, pivot, and analyze instantly." },
-  { title: "Broad Industry Coverage", desc: "From MSMEs to investors, our library spans multiple sectors and categories." },
-  { title: "Continuously Expanding", desc: "We regularly add and refresh datasets to keep data accurate and up to date." },
+  { title: "Organized and structured for easy use", desc: "Every dataset is professionally formatted - no data cleaning required before use." },
+  { title: "Designed for practical business applications", desc: "Delivered in Excel (.xlsx) so you can filter, sort, pivot, and analyze instantly." },
+  { title: "Accessible in simple and widely used formats", desc: "From MSMEs to investors, our library spans multiple sectors and categories." },
+  { title: "Continuously expanding across multiple data categories", desc: "We regularly add and refresh datasets to keep data accurate and up to date." },
 ];
 
 const PREVIEW = [
@@ -42,13 +40,6 @@ const PREVIEW = [
 ];
 
 export function DataStationLanding() {
-  const [barW, setBarW] = useState(0);
-
-  useEffect(() => {
-    const t = setTimeout(() => setBarW(78), 1000);
-    return () => clearTimeout(t);
-  }, []);
-
   const GUARANTEES = [
     { icon: IconDownload, text: "Instant Excel Download" },
     { icon: IconShieldCheck, text: "Verified Business Records" },
@@ -62,51 +53,48 @@ export function DataStationLanding() {
   ];
 
   const heroImg = "/hero-data.jpg";
-  const msmeImg = "/msme-data.jpg";
-  const angelImg = "/angel-data.jpg";
-  const vcImg = "/vc-data.jpg";
-  const FEATURED = [
-    {
-      img: msmeImg,
-      tag: "MSME Data",
-      title: "10,000 MSME Database",
-      desc: "Structured dataset of 10,000 MSME companies across India — ready for sales, partnerships, research, and targeted outreach.",
-      fields: ["Company Name", "Industry", "City", "Phone", "Email", "Website"],
-      highlight: "10K+ verified companies",
-      preview: [
-        { name: "Mehta & Sons Pvt", industry: "Textiles", city: "Surat" },
-        { name: "BrightTech Solutions", industry: "IT Services", city: "Pune" },
-        { name: "AgroFresh India", industry: "Agriculture", city: "Nagpur" },
-      ],
-    },
-    {
-      img: angelImg,
-      tag: "Investor Data",
-      title: "Top 500 Angel Investors",
-      desc: "Active angel investors from India, USA & UAE — perfect for startup fundraising and building investor relationships.",
-      fields: ["Name", "Firm", "Location", "Email", "Website", "Focus"],
-      highlight: "500+ investor profiles",
-      regions: [
-        { flag: "🇮🇳", country: "India", count: "280 investors" },
-        { flag: "🇺🇸", country: "USA", count: "140 investors" },
-        { flag: "🇦🇪", country: "UAE", count: "80 investors" },
-      ],
-    },
-    {
-      img: vcImg,
-      tag: "Investor Data",
-      title: "Top 250+ VC & Angel Investors in India",
-      desc: "Comprehensive database of venture capital firms and angel investors across India's major startup hubs.",
-      fields: ["Name", "Firm", "Stage", "Sector", "Website", "City"],
-      highlight: "250+ VC profiles",
-      cities: ["Bengaluru", "Mumbai", "Delhi NCR", "Hyderabad"],
-    },
-  ];
+  // const FEATURED = [
+  //   {
+  //     img: msmeImg,
+  //     tag: "MSME Data",
+  //     title: "10,000 MSME Database",
+  //     desc: "Structured dataset of 10,000 MSME companies across India — ready for sales, partnerships, research, and targeted outreach.",
+  //     fields: ["Company Name", "Industry", "City", "Phone", "Email", "Website"],
+  //     highlight: "10K+ verified companies",
+  //     preview: [
+  //       { name: "Mehta & Sons Pvt", industry: "Textiles", city: "Surat" },
+  //       { name: "BrightTech Solutions", industry: "IT Services", city: "Pune" },
+  //       { name: "AgroFresh India", industry: "Agriculture", city: "Nagpur" },
+  //     ],
+  //   },
+  //   {
+  //     img: angelImg,
+  //     tag: "Investor Data",
+  //     title: "Top 500 Angel Investors",
+  //     desc: "Active angel investors from India, USA & UAE — perfect for startup fundraising and building investor relationships.",
+  //     fields: ["Name", "Firm", "Location", "Email", "Website", "Focus"],
+  //     highlight: "500+ investor profiles",
+  //     regions: [
+  //       { flag: "🇮🇳", country: "India", count: "280 investors" },
+  //       { flag: "🇺🇸", country: "USA", count: "140 investors" },
+  //       { flag: "🇦🇪", country: "UAE", count: "80 investors" },
+  //     ],
+  //   },
+  //   {
+  //     img: vcImg,
+  //     tag: "Investor Data",
+  //     title: "Top 250+ VC & Angel Investors in India",
+  //     desc: "Comprehensive database of venture capital firms and angel investors across India's major startup hubs.",
+  //     fields: ["Name", "Firm", "Stage", "Sector", "Website", "City"],
+  //     highlight: "250+ VC profiles",
+  //     cities: ["Bengaluru", "Mumbai", "Delhi NCR", "Hyderabad"],
+  //   },
+  // ];
 
   const COMPACT = [
+    { title: "10,000 MSME Database", size: "10K", records: "10,000 records" },
     { title: "20,000 MSME Database", size: "20K", records: "20,000 records" },
     { title: "30,000 MSME Database", size: "30K", records: "30,000 records" },
-    { title: "40,000 MSME Database", size: "40K", records: "40,000 records" },
   ];
 
   const VALUES = [
@@ -118,75 +106,69 @@ export function DataStationLanding() {
   const USERS = [
     {
       Icon: IconTarget,
-      title: "Sales Teams",
-      desc: "Build targeted outreach lists and accelerate pipeline generation with verified contacts.",
+      title: "Sales teams building targeted outreach lists",
       stat: "10x",
       statLabel: "Faster prospecting",
       gradient: "from-[hsl(16,92%,53%)] to-[hsl(8,85%,48%)]",
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link:"#"
+      link: "/app/databases"
     },
     {
       Icon: IconSpeakerphone,
-      title: "Marketing Agencies",
-      desc: "Run data-driven lead generation campaigns with structured, verified data.",
+      title: "Marketing agencies running lead generation campaigns",
       stat: "40K+",
       statLabel: "Leads available",
       gradient: "from-[hsl(16,92%,53%)] to-[hsl(8,85%,48%)]",
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link:"#"
+      link: "/app/databases"
     },
     {
       Icon: IconRocket,
-      title: "Startup Founders",
-      desc: "Explore investor networks and identify the right funding opportunities.",
+      title: "Startup founders exploring networks and partnerships",
       stat: "750+",
       statLabel: "Investor profiles",
       gradient: "from-[hsl(16,92%,53%)] to-[hsl(8,85%,48%)]",
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link:"#"
+      link: "/app/databases"
     },
     {
       Icon: IconSearch,
-      title: "Consultants",
-      desc: "Conduct deep industry research with organized, structured datasets.",
+      title: "Consultants conducting industry research",
       stat: "100%",
       statLabel: "Structured data",
       gradient: "from-[hsl(16,92%,53%)] to-[hsl(8,85%,48%)]",
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link:"#"
+      link: "/app/databases"
     },
     {
       Icon: IconHeartHandshake,
-      title: "Recruiters",
-      desc: "Identify target companies and map out competitive landscapes quickly.",
+      title: "Recruiters identifying companies and opportunities",
       stat: "3",
       statLabel: "Countries covered",
       gradient: "from-[hsl(16,92%,53%)] to-[hsl(8,85%,48%)]",
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link:"#"
+      link: "/app/databases"
     },
     {
       Icon: IconBooks,
-      title: "Researchers",
-      desc: "Analyze business ecosystems with clean, downloadable data in Excel.",
+      title: "Researchers analyzing business ecosystems",
       stat: ".xlsx",
       statLabel: "Ready to analyze",
       gradient: "from-[hsl(16,92%,53%)] to-[hsl(8,85%,48%)]",
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link:"#"
+      link: "/app/databases"
     },
   ];
 
@@ -203,77 +185,49 @@ export function DataStationLanding() {
     <div className="relative min-h-screen overflow-x-hidden font-ds-body text-ds-m-t1 antialiased">
 
       <section className="relative overflow-hidden bg-foreground">
-        {/* Background image with overlay */}
         <div className="absolute inset-0">
           <img src={heroImg} alt="" className="h-full w-full object-cover opacity-40" />
           <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/40 to-black/10" />
         </div>
 
-        <div className="relative mx-auto max-w-6xl px-6 pb-24 pt-32 md:pb-24 md:pt-30">
+        <div className="relative mx-auto max-w-7xl min-[1100px]:px-13 pb-24 pt-32 md:pb-28 md:pt-38">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="max-w-3xl"
           >
-            {/* Badge */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#ed501f]/30 bg-[#ed501f]/10 px-4 py-1.5 text-sm font-medium text-[#ed501f]">
               <IconDatabase size={16} />
               <span>Curated Business Databases</span>
             </div>
 
-            <h1 className="font-heading text-4xl font-bold leading-[1.1] tracking-tight text-background md:text-6xl lg:text-7xl">
-              Smarter Data for{" "}
-              <span className="bg-linear-to-r from-[#ed501f] to-[#d13202] bg-clip-text text-transparent">
-                Smarter Decisions
-              </span>
+            <h1 className="font-heading text-4xl font-bold leading-[1.1] tracking-tight text-background md:text-6xl lg:text-7xl">Your Destination for{" "}
+              <span className="bg-linear-to-r from-[#ed501f] to-[#d13202] bg-clip-text text-transparent">Smarter Data</span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-background/50">
-              Access curated, verified datasets of MSME companies, angel investors, and VC firms across
-              India, USA & UAE — ready to download in Excel.
-            </p>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-background/50">Data Station is a centralized platform designed to make structured and accessible data available to professionals, businesses, and researchers.</p>
 
             <div className="mt-10 flex flex-wrap gap-4">
-              <Link href="#databases" className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40"
-              >
+              <Link to="/app/databases" className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40">
                 Browse Databases
                 <IconArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link
-                href="#about"
-                className="inline-flex items-center gap-2 rounded-xl border border-background/20 px-7 py-3.5 font-heading text-sm font-medium text-background/80 transition-all duration-200 hover:border-background/40 hover:text-background"
-              >
-                Learn More
-              </Link>
-            </div>
-
-            {/* Stats */}
-            <div className="mt-10 flex gap-10 pt-6">
-              {[
-                ["40,000+", "MSME Records"],
-                ["750+", "Investor Profiles"],
-                ["3", "Countries Covered"],
-              ].map(([num, label]) => (
-                <div key={label} className="bg-[#ed501f]/10 border border-[#ed501f] rounded-4xl p-4">
-                  <div className="font-heading text-2xl font-bold text-[#ed501f]">{num}</div>
-                  <div className="mt-1 text-sm text-white">{label}</div>
-                </div>
-              ))}
+              <Link href="/app/about" className="inline-flex items-center gap-2 rounded-xl border border-background/20 px-7 py-3.5 font-heading text-sm font-medium text-background/80 transition-all duration-200 hover:border-background/40 hover:text-background">Learn More</Link>
             </div>
           </motion.div>
         </div>
       </section>
 
       <div className="flex h-11 items-center overflow-hidden border-y border-zinc-200 bg-ds-m-bg2 py-0">
-        <div className="inline-flex animate-ds-m-tick whitespace-nowrap hover:[animation-play-state:paused]">
+        <div className="inline-flex animate-ds-m-tick whitespace-nowrap hover:paused">
           {[...TICKER, ...TICKER].map((t, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-2.5 px-7 text-[11.5px] font-semibold uppercase tracking-[1.2px] text-ds-m-soft"
+              className="inline-flex items-center gap-2.5 px-7 text-[11.5px] font-extrabold uppercase tracking-[1.2px] text-[#5c5c5c]"
             >
               {t === TICK_SEP ? (
-                <IconSparkles size={16} stroke={1.5} className="text-ds-m-orange" aria-hidden />
+                <IconDatabase size={16} stroke={1.5} className="text-[#ed501f]" aria-hidden />
               ) : (
                 t
               )}
@@ -283,7 +237,7 @@ export function DataStationLanding() {
       </div>
 
       <section id="databases" className="bg-background py-28">
-        <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto max-w-7xl min-[1100px]:px-13 px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -294,12 +248,8 @@ export function DataStationLanding() {
               <IconDatabase size={14} />
               Our Databases
             </span>
-            <h2 className="mt-5 font-heading text-3xl font-bold text-foreground md:text-5xl">
-              What We Offer
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground">
-              Curated, verified datasets ready to download — no cleaning, no formatting, just insights.
-            </p>
+            <h2 className="mt-5 font-heading text-3xl font-bold text-foreground md:text-5xl">What We Offer</h2>
+            <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground">Data Station provides curated databases designed to support various professional needs including research, outreach, networking, and market analysis.</p>
           </motion.div>
 
           {/* Compact MSME tiers */}
@@ -334,16 +284,23 @@ export function DataStationLanding() {
                     {item.records} · Instant download
                   </div>
 
-                  <Link href="#" className="mt-5 group/btn inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-4 py-2 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/35">
+                  <Link to="/app/databases" className="mt-5 group/btn inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-4 py-2 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/35">
                     Buy <IconArrowRight size={14} />
                   </Link>
                 </div>
               </motion.div>
             ))}
           </div>
+          <div className="flex justify-center mt-8">
+            <div>
+              <Link to="/app/databases" className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40">
+                Explore All Databases
+                <IconArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
-
 
       <section className="relative border-y border-border bg-black/90 py-10">
         {/* Background texture */}
@@ -355,7 +312,7 @@ export function DataStationLanding() {
         {/* Glow accents */}
         <div className="absolute left-1/4 top-0 h-100 w-100 rounded-full bg-[#ed501f]/20 blur-[120px]" />
 
-        <div className="relative mx-auto max-w-6xl px-6 text-center">
+        <div className="relative mx-auto max-w-7xl min-[1100px]:px-13 px-6 text-center">
           <p className="mb-6 font-heading text-sm font-semibold uppercase tracking-widest text-muted-foreground">
             Trusted by professionals
           </p>
@@ -378,22 +335,18 @@ export function DataStationLanding() {
         <div className="absolute -right-40 top-0 h-125 w-125 rounded-full bg-[#ed501f]/3 blur-3xl" />
         <div className="absolute -left-40 bottom-0 h-100 w-100 rounded-full bg-[#ed501f]/2 blur-3xl" />
 
-        <div className="relative mx-auto max-w-6xl px-6">
+        <div className="relative mx-auto max-w-7xl min-[1100px]:px-13 px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center"
           >
-            <span className="font-heading text-sm font-semibold uppercase tracking-widest text-[#ed501f]">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#ed501f]/20 bg-[#ed501f]/10 px-4 py-1.5 font-heading text-xs font-semibold uppercase tracking-widest text-[#ed501f]">
               Why We Exist
             </span>
-            <h2 className="mt-3 font-heading text-3xl font-bold text-foreground md:text-5xl">
-              Mission & Vision
-            </h2>
-            <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground">
-              We believe data should empower — not overwhelm. Here&apos;s what drives us.
-            </p>
+            <h4 className="mt-3 font-heading text-3xl font-bold text-foreground md:text-5xl">Mission & Vision</h4>
+            <p className="mx-auto mt-4 max-w-lg text-base text-[#5c5c5c]">We believe data should empower - not overwhelm. <br/>Here&apos;s what drives us.</p>
           </motion.div>
 
           <div className="mt-16 grid gap-6 lg:grid-cols-5">
@@ -410,15 +363,9 @@ export function DataStationLanding() {
                 <div className="mb-6 inline-flex items-center gap-3 rounded-2xl bg-linear-to-br from-[#ed501f]/10 to-accent p-4">
                   <IconSparkles size={28} className="text-[#ed501f]" />
                 </div>
-                <h3 className="font-heading text-2xl font-bold text-foreground">Our Mission</h3>
-                <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
-                  To make high-quality data more accessible, organized, and practical for professionals
-                  who rely on data to make decisions, build connections, and discover opportunities.
-                </p>
-                <p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-                  We help individuals and organizations save time on research and focus on growth,
-                  insights, and meaningful connections.
-                </p>
+                <h5 className="font-heading text-2xl font-bold text-foreground">Our Mission</h5>
+                <p className="mt-4 max-w-md text-base leading-relaxed text-[#5c5c5c]">Our mission is to make high-quality data more accessible, organized, and practical for professionals who rely on data to make decisions, build connections, and discover opportunities.</p>
+                <p className="mt-3 max-w-md text-base leading-relaxed text-[#5c5c5c]">By providing structured datasets in simple formats, we help individuals and organizations save time on research and focus on what truly matters: growth, insights, and meaningful connections.</p>
 
                 {/* Core values */}
                 <div className="mt-8 flex flex-wrap gap-3">
@@ -445,15 +392,9 @@ export function DataStationLanding() {
                 <div className="mb-6 inline-flex items-center gap-3 rounded-2xl bg-[#ed501f]/15 p-4">
                   <IconTelescope size={28} className="text-[#ed501f]" />
                 </div>
-                <h3 className="font-heading text-2xl font-bold text-background">Our Vision</h3>
-                <p className="mt-4 text-base leading-relaxed text-background/60">
-                  To build a comprehensive data hub where professionals can discover and access
-                  valuable datasets across industries and sectors.
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-background/50">
-                  Data Station aims to become the trusted destination for individuals and businesses
-                  seeking smarter ways to access and use data across India and beyond.
-                </p>
+                <h5 className="font-heading text-2xl font-bold text-background">Our Vision</h5>
+                <p className="mt-4 text-base leading-relaxed text-white">Our vision is to build a comprehensive data hub where professionals can discover and access valuable datasets across industries and sectors.</p>
+                <p className="mt-3 text-base leading-relaxed text-white">As the platform grows, Data Station aims to become a trusted destination for individuals and businesses looking for smarter ways to access and use data.</p>
 
                 {/* Visual element */}
                 <div className="mt-8 flex items-center gap-3">
@@ -466,7 +407,7 @@ export function DataStationLanding() {
                       />
                     ))}
                   </div>
-                  <span className="text-xs font-medium text-background/40">
+                  <span className="text-xs font-medium text-[#ed501f]">
                     Trusted by 500+ professionals
                   </span>
                 </div>
@@ -487,25 +428,18 @@ export function DataStationLanding() {
         <div className="absolute left-1/4 top-0 h-120 w-120 rounded-full bg-[#ed501f]/10 blur-[120px]" />
         <div className="absolute bottom-0 right-1/4 h-75 w-75 rounded-full bg-[#ed501f]/10 blur-[100px]" />
 
-        <div className="relative mx-auto max-w-6xl px-6">
+        <div className="relative mx-auto max-w-7xl min-[1100px]:px-13 px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center"
           >
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#ed501f]/20 bg-[#ed501f]/10 px-4 py-1.5 font-heading text-xs font-semibold uppercase tracking-widest text-[#ed501f]">
-              Our Users
-            </span>
-            <h2 className="mt-5 font-heading text-3xl font-bold text-background md:text-5xl">
-              Who Uses{" "}
-              <span className="text-[#ed501f]">
-                Data Station
-              </span>
-            </h2>
-            <p className="mx-auto mt-4 max-w-md text-base text-background/50">
-              Built for professionals who rely on reliable, structured data to drive real results.
-            </p>
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#ed501f]/20 bg-[#ed501f]/10 px-4 py-1.5 font-heading text-xs font-semibold uppercase tracking-widest text-[#ed501f]">Our Users</span>
+            <h5 className="mt-5 font-heading text-3xl font-bold text-background md:text-5xl">Who Uses{" "}
+              <span className="text-[#ed501f]">Data Station</span>
+            </h5>
+            <p className="mx-auto mt-4 max-w-md text-base text-white">Data Station is built for professionals and organizations that rely on reliable data.</p>
           </motion.div>
 
           <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -541,11 +475,10 @@ export function DataStationLanding() {
                     </div>
                   </div>
 
-                  <h3 className="font-heading text-lg font-bold text-background">{u.title}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-background/45">{u.desc}</p>
+                  <h5 className="font-heading text-lg font-bold text-background">{u.title}</h5>
 
                   {/* Bottom arrow */}
-                  <Link href={u.link} className="mt-5 flex items-center gap-2 text-xs font-medium text-background/25 transition-colors duration-300 group-hover:text-[#ed501f]">
+                  <Link to={u.link} className="mt-5 flex items-center gap-2 text-xs font-medium text-background/25 transition-colors duration-300 group-hover:text-[#ed501f]">
                     <span>Explore data</span>
                     <IconArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </Link>
@@ -557,24 +490,21 @@ export function DataStationLanding() {
       </section>
 
       <section className="bg-background py-24">
-        <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto max-w-7xl min-[1100px]:px-13 px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center"
           >
-            <span className="font-heading text-sm font-semibold uppercase tracking-widest text-[#ed501f]">
-              Why Choose Us
-            </span>
-            <h2 className="mt-3 font-heading text-3xl font-bold text-foreground md:text-4xl">
-              Why Data Station
-            </h2>
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#ed501f]/20 bg-[#ed501f]/10 px-4 py-1.5 font-heading text-xs font-semibold uppercase tracking-widest text-[#ed501f]">Why Choose Us</span>
+            <h5 className="mt-3 font-heading text-3xl font-bold text-foreground md:text-4xl">Why Data Station</h5>
+            <p className="mx-auto mt-4 max-w-xl text-base text-[#5c5c5c]">Access to structured data can significantly improve the way professionals conduct research, build connections, and identify opportunities.</p>
           </motion.div>
 
           <div className="mt-14 grid gap-8 lg:grid-cols-2">
             {/* Reasons */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               {WHY.map((w, i) => (
                 <motion.div
                   key={w.title}
@@ -582,14 +512,14 @@ export function DataStationLanding() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex gap-4"
+                  className="flex gap-8"
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ed501f]/10 font-heading text-sm font-bold text-[#ed501f]">
                     {String(i + 1).padStart(2, "0")}
                   </div>
                   <div>
-                    <h3 className="font-heading text-base font-bold text-foreground">{w.title}</h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{w.desc}</p>
+                    <h5 className="font-heading text-base font-bold text-foreground">{w.title}</h5>
+                    <p className="mt-1 text-sm leading-relaxed text-[#5c5c5c]">{w.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -626,10 +556,7 @@ export function DataStationLanding() {
                   <div className="text-xs text-muted-foreground">Available immediately after purchase</div>
                 </div>
               </div>
-              <a
-                href="#databases"
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-muted/50 px-5 py-3 font-heading text-sm font-medium text-foreground transition-all hover:border-primary/30 hover:bg-accent"
-              >
+              <a href="#databases" className="mt-5 group inline-flex justify-center items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40 w-full text-center">
                 Browse All Databases <IconArrowRight size={16} />
               </a>
             </motion.div>
@@ -674,7 +601,7 @@ export function DataStationLanding() {
               Get Started Today
             </span>
 
-            <h2 className="mt-6 font-heading text-4xl font-bold text-background md:text-5xl lg:text-6xl">
+            <h5 className="mt-6 font-heading text-4xl font-bold text-background md:text-5xl lg:text-6xl">
               Ready for{" "}
               <span className="relative bg-linear-to-r from-[#ed501f] to-[#d13202] bg-clip-text text-transparent">
                 Smarter Data
@@ -693,12 +620,8 @@ export function DataStationLanding() {
                 </svg>
               </span>
               ?
-            </h2>
-
-            <p className="mx-auto mt-5 max-w-lg text-lg text-background/60">
-              Explore our complete library of curated databases and find the right
-              dataset for your needs.
-            </p>
+            </h5>
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-background/60">Our platform serves as a hub where users can explore a wide range of databases covering businesses, industries, startups, investors, and other professional networks.</p>
 
             {/* Stats row */}
             <div className="mx-auto mt-10 flex max-w-sm justify-center divide-x divide-background/10">
@@ -722,32 +645,19 @@ export function DataStationLanding() {
 
             {/* CTA buttons */}
             <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <a
-                href="#databases"
-                className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-[#ed501f] to-[#d13202] px-8 py-4 font-heading text-sm font-bold text-primary-foreground shadow-2xl shadow-primary/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-primary/50"
-              >
-                Browse Databases
-                <IconArrowRight
-                  size={18}
-                  className="transition-transform group-hover:translate-x-1"
-                />
+              <a href="#databases" className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40">Browse Databases
+                <IconArrowRight size={18} className="transition-transform group-hover:translate-x-1"/>
               </a>
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 rounded-xl border-2 border-background/20 px-8 py-4 font-heading text-sm font-semibold text-background/80 transition-all duration-300 hover:border-background/40 hover:bg-background/5"
-              >
+              <Link to="/app/contact" className="inline-flex items-center gap-2 rounded-xl border-2 border-background/20 px-8 py-4 font-heading text-sm font-semibold text-background/80 transition-all duration-300 hover:border-background/40 hover:bg-background/5">
                 Contact Us
-              </a>
+              </Link>
             </div>
 
             {/* Guarantees */}
             <div className="mt-10 flex flex-wrap justify-center gap-6">
               {GUARANTEES.map(({ icon: Icon, text }) => (
-                <span
-                  key={text}
-                  className="flex items-center gap-2 text-sm font-medium text-background/50"
-                >
-                  <Icon size={16} className="text-primary/70" />
+                <span key={text} className="flex items-center gap-2 text-sm font-medium text-background/50">
+                  <Icon size={16} className="text-primary/70"/>
                   {text}
                 </span>
               ))}
@@ -755,92 +665,6 @@ export function DataStationLanding() {
           </motion.div>
         </div>
       </section>
-
-      <footer className="border-t border-zinc-200 bg-ds-m-bg px-5 pb-8 pt-16 min-[1100px]:px-13 min-[1100px]:pb-8 min-[1100px]:pt-16">
-        <div className="mx-auto grid max-w-325 grid-cols-1 gap-11 border-b border-zinc-200 pb-11 min-[700px]:grid-cols-2 min-[1100px]:grid-cols-[2.2fr_1fr_1fr_1fr]">
-          <div>
-            <div className="mb-3 flex items-center gap-2.5 font-ds-display text-[17px] font-extrabold text-ds-m-t1">
-              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-ds-m-orange shadow-[0_0_12px_rgb(240_74_29/0.4)]">
-                <IconDatabase size={16} stroke={1.75} className="text-white" aria-hidden />
-              </div>
-              DataStation
-            </div>
-            <p className="mb-4 max-w-[270px] text-[13px] leading-[1.8] text-ds-m-soft">
-              Your destination for smarter data. Curated, structured datasets for professionals
-              across India and beyond.
-            </p>
-            <a
-              className="text-[13px] text-ds-m-orange no-underline transition-opacity hover:opacity-70"
-              href="mailto:support@datastation.in"
-            >
-              support@datastation.in
-            </a>
-          </div>
-          {[
-            {
-              h: "Pages",
-              links: [
-                { label: "Home", to: "/app" },
-                { label: "All Databases", to: "/app/databases" },
-                { label: "About", to: "/app/about" },
-                { label: "Contact", to: "/app/contact" },
-              ],
-            },
-            {
-              h: "Databases",
-              links: [
-                { label: "MSME Data", to: "/app/msme" },
-                { label: "Investor Data", to: "/app/investor" },
-                { label: "Business Data", to: "/app/databases" },
-              ],
-            },
-            {
-              h: "Legal",
-              links: [
-                { label: "Privacy Policy", to: "/app/privacy" },
-                { label: "Terms & Conditions", to: "/app/terms" },
-              ],
-            },
-          ].map((col) => (
-            <div key={col.h}>
-              <div className="mb-4 font-ds-display text-[11.5px] font-bold uppercase tracking-[1.4px] text-ds-m-t1">
-                {col.h}
-              </div>
-              <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
-                {col.links.map((l) => (
-                  <li key={l.label}>
-                    <Link
-                      to={l.to}
-                      className="text-[13px] text-ds-m-soft no-underline transition-colors hover:text-ds-m-orange"
-                    >
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="mx-auto flex max-w-[1300px] flex-wrap items-center justify-between gap-3 pt-8">
-          <span className="text-xs text-ds-m-faint">
-            © 2025 Data Station. All rights reserved. Governed by laws of India.
-          </span>
-          <div className="flex gap-5">
-            <Link
-              to="/app/privacy"
-              className="text-xs text-ds-m-faint no-underline transition-colors hover:text-ds-m-muted"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              to="/app/terms"
-              className="text-xs text-ds-m-faint no-underline transition-colors hover:text-ds-m-muted"
-            >
-              Terms & Conditions
-            </Link>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

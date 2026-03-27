@@ -1,8 +1,23 @@
-import { Outlet, useLoaderData, useRouteError } from "react-router";
+/* eslint-disable no-undef */
+import { Outlet, useLoaderData, useLocation, useRouteError } from "react-router";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { AppProvider } from "@shopify/shopify-app-react-router/react";
 import { authenticate } from "../shopify.server";
-import { DsAppNavbar } from "../components/DsAppNavbar.jsx";
+import { Header } from "../components/Header";
+import { Footer } from "../components/Footer";
+
+const APP_NAV_LINKS = [
+  { label: "Home", to: "/app" },
+  { label: "Databases", to: "/app/databases" },
+  { label: "10k MSME Database", to: "/app/tenmsme" },
+  { label: "20k MSME Database", to: "/app/twentymsme" },
+  { label: "30k MSME Database", to: "/app/thirtymsme" },
+  { label: "40k MSME Database", to: "/app/fortymsme" },
+  { label: "Top 250+ VC & Angels Investor (India)", to: "/app/vc_angel_investor" },
+  { label: "Top 500 Angel Investor Database (India, USA, UAE)", to: "/app/angel_investor" },
+  { label: "About", to: "/app/about" },
+  { label: "Contact", to: "/app/contact" },
+];
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
@@ -17,18 +32,18 @@ export const loader = async ({ request }) => {
 
 export default function App() {
   const { apiKey, storefrontBaseUrl, sampleDownloadUrl } = useLoaderData();
+  const location = useLocation();
 
   return (
     <AppProvider embedded apiKey={apiKey}>
+      <Header sampleDownloadUrl={sampleDownloadUrl} />
       <s-app-nav>
-        <s-link href="/app">Home</s-link>
-        <s-link href="/app/databases">Databases</s-link>
-        <s-link href="/app/msme">MSME Data</s-link>
-        <s-link href="/app/investor">Investor Data</s-link>
-        <s-link href="/app/about">About</s-link>
-        <s-link href="/app/contact">Contact</s-link>
+        {APP_NAV_LINKS.map((item) => (
+          <s-link key={item.to} to={`${item.to}${location.search}`}>
+            {item.label}
+          </s-link>
+        ))}
       </s-app-nav>
-      <DsAppNavbar sampleDownloadUrl={sampleDownloadUrl} />
       <div className="min-h-full bg-ds-grey-bg">
         <Outlet
           context={{
@@ -37,6 +52,7 @@ export default function App() {
           }}
         />
       </div>
+      <Footer />
     </AppProvider>
   );
 }
