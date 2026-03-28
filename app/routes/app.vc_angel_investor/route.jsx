@@ -11,7 +11,7 @@ export const loader = async ({ request }) => {
 export default function VcAngelInvestorPage() {
   const mediaData = [
     { type: "image", src: "/250_plus.webp" },
-    { type: "image", src: "/all_product.png" },
+    { type: "image", src: "/all_product.webp" },
     { type: "video", src: "/data_video.mp4" },
   ];
   return (

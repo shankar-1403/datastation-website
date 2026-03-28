@@ -11,7 +11,7 @@ export const loader = async ({ request }) => {
 export default function FortyKMsmePage() {
   const mediaData = [
     { type: "image", src: "/40k.webp" },
-    { type: "image", src: "/all_product.png" },
+    { type: "image", src: "/all_product.webp" },
     { type: "video", src: "/data_video.mp4" },
   ];
   return (

@@ -25,7 +25,11 @@ api_version = "2026-04"
 scopes = "write_metaobject_definitions,write_metaobjects,write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+# Replace example.com with your deployed app origin before `shopify app deploy`.
+redirect_urls = [
+  "https://example.com/auth/callback",
+  "https://example.com/auth/shopify/callback",
+]
 
 [product.metafields.app.demo_info]
 type = "single_line_text_field"

@@ -24,8 +24,8 @@ export function Footer() {
       },
     ]
   return (
-    <footer className="border-t border-zinc-200 bg-ds-m-bg mx-auto max-w-7xl pb-8 pt-4 min-[1100px]:px-13 min-[1100px]:pb-8 min-[1100px]:pt-12">
-      <div className="mx-auto flex justify-between max-w-325 gap-11 border-b border-zinc-200 pb-11 min-[700px]:grid-cols-2 min-[1100px]:grid-cols-[2.2fr_1fr_1fr_1fr]">
+    <footer className="border-t border-[#ed501f]/20 bg-ds-m-bg mx-auto max-w-7xl pt-4 min-[1100px]:px-13 min-[1100px]:pb-8 min-[1100px]:pt-12">
+      <div className="mx-auto flex justify-between max-w-325 gap-11 border-b border-[#ed501f]/20 pb-11 min-[700px]:grid-cols-2 min-[1100px]:grid-cols-[2.2fr_1fr_1fr_1fr]">
         <div>
           <div className="mb-3 flex items-center gap-2.5 font-ds-display text-[17px] font-extrabold text-ds-m-t1">
             <Link to={withSearch("/app")}>
@@ -57,24 +57,10 @@ export function Footer() {
           ))}
         </div>
       </div>
-      <div className="mx-auto flex max-w-325 flex-wrap items-center justify-between gap-3 pt-8">
+      <div className="mx-auto flex max-w-325 flex-wrap items-center justify-between gap-3 pt-4">
         <span className="text-xs text-[#5c5c5c]">
           © 2026 Data Station. All rights reserved.
         </span>
-        <div className="flex gap-5">
-          <Link
-            to={withSearch("/app/privacy")}
-            className="text-xs text-[#5c5c5c] no-underline transition-colors hover:text-ds-m-muted"
-          >
-            Privacy Policy
-          </Link>
-          <Link
-            to={withSearch("/app/terms")}
-            className="text-xs text-[#5c5c5c] no-underline transition-colors hover:text-ds-m-muted"
-          >
-            Terms & Conditions
-          </Link>
-        </div>
       </div>
     </footer>
   );

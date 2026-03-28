@@ -7,7 +7,6 @@ const NAV_LINKS = [
   { label: "Contact", to: "/app/contact" },
 ];
 
-const nbtnOrClass = "relative overflow-hidden rounded-lg border-0 bg-gradient-to-br from-[#ed501f] to-[#cf3101] px-5 py-2.5 font-ds-body text-[13px] font-semibold text-white shadow-[0_0_0_1px_rgb(240_74_29/0.4),0_4px_20px_rgb(240_74_29/0.3)] transition-all duration-300 after:absolute after:inset-0 after:bg-gradient-to-br after:from-white/[0.15] after:to-transparent after:opacity-0 after:transition-opacity after:duration-200 hover:-translate-y-px hover:shadow-[0_0_0_1px_rgb(240_74_29/0.6),0_6px_30px_rgb(240_74_29/0.45)] hover:after:opacity-100";
 
 export function Header() {
   const datastation = "/datastation.webp";
@@ -29,9 +28,6 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-2.5">
-          <Link to={withSearch("/app/databases")} className={nbtnOrClass}>Browse Databases</Link>
-          </div>
         </div>
       </div>
     </nav>

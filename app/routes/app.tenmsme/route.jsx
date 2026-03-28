@@ -1,17 +1,41 @@
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { useEffect, useMemo, useState } from "react";
-import { useFetcher } from "react-router";
+import { useFetcher, useLoaderData } from "react-router";
 import { authenticate } from "../../shopify.server";
 import ProductMediaGallery from "../../components/ui/productMediaGallery";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
-  return null;
+  // Cart permalink opens checkout with the line item (skips product + cart). Set variant ID from
+  // Admin → Product → variant row (or JSON in product URL). Not the same as product ID.
+  return {
+    shopifyCartBaseUrl:
+      process.env.PUBLIC_SHOPIFY_CART_BASE_URL ||
+      "https://datastation.myshopify.com",
+    /** Required for best checkout UX. Example: PUBLIC_SHOPIFY_TENMSME_VARIANT_ID=1234567890 */
+    shopifyTenmsmeVariantId: process.env.PUBLIC_SHOPIFY_TENMSME_VARIANT_ID || "",
+    /** ISO 3166-1 alpha-2, e.g. IN — prefills country to reduce checkout fields */
+    checkoutDefaultCountry: process.env.PUBLIC_CHECKOUT_DEFAULT_COUNTRY || "IN",
+    /** Fallback if variant id is missing — product page + prefill (extra steps) */
+    shopifyProductFallbackUrl:
+      process.env.PUBLIC_SHOPIFY_TENMSME_PRODUCT_URL ||
+      "https://datastation.myshopify.com/products/9225317056727",
+  };
 };
 
 const OTP_EXPIRY_MS = 10 * 60 * 1000;
 const otpStore = new Map();
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** Cart permalink line item properties: Base64 URL-encoded JSON (see Shopify “Create cart permalinks”). */
+function encodeCartLineProperties(props) {
+  const json = JSON.stringify(props);
+  const bytes = new TextEncoder().encode(json);
+  let bin = "";
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  const b64 = btoa(bin);
+  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
 
 function generateOtp() {
   return `${Math.floor(100000 + Math.random() * 900000)}`;
@@ -19,35 +43,80 @@ function generateOtp() {
 
 async function sendOtpEmail({ recipient, otp }) {
   const nodemailerModule = await import("nodemailer");
-  const smtpHost = import.meta.env.SMTP_HOST;
-  const smtpPort = Number(import.meta.env.SMTP_PORT || 587);
-  const smtpUser = import.meta.env.SMTP_USER;
-  const smtpPass = import.meta.env.SMTP_PASS;
-  const smtpFrom = import.meta.env.SMTP_FROM || smtpUser;
+  // Server-only: use process.env (same pattern as shopify.server.js). Do not use VITE_* for
+  // SMTP secrets — those are exposed to the browser bundle.
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpPort = Number(process.env.SMTP_PORT || 587);
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  const smtpFrom = process.env.SMTP_FROM || smtpUser;
 
   if (!smtpHost || !smtpUser || !smtpPass || !smtpFrom) {
     throw new Error(
-      "SMTP is not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, and SMTP_FROM.",
+      "SMTP is not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, and SMTP_FROM in your environment (e.g. project .env for shopify app dev).",
     );
   }
+
+  // "Greeting never received" usually means wrong host/port/TLS combo, firewall blocking SMTP,
+  // or the server is too slow to answer — tune with env vars below.
+  const secure =
+    process.env.SMTP_SECURE === "true"
+      ? true
+      : process.env.SMTP_SECURE === "false"
+        ? false
+        : smtpPort === 465;
+  const requireTLS =
+    process.env.SMTP_REQUIRE_TLS === "false"
+      ? false
+      : !secure && smtpPort === 587;
+
+  const familyEnv = process.env.SMTP_FAMILY;
+  const family =
+    familyEnv === "4" || familyEnv === "6" ? Number(familyEnv) : undefined;
 
   const transporter = nodemailerModule.default.createTransport({
     host: smtpHost,
     port: smtpPort,
-    secure: smtpPort === 465,
+    secure,
+    requireTLS,
+    ...(family !== undefined ? { family } : {}),
     auth: {
       user: smtpUser,
       pass: smtpPass,
     },
+    connectionTimeout: 60_000,
+    greetingTimeout: 60_000,
+    socketTimeout: 60_000,
+    tls: {
+      minVersion: "TLSv1.2",
+    },
   });
 
-  await transporter.sendMail({
-    from: smtpFrom,
-    to: recipient,
-    subject: "Your OTP for purchase",
-    text: `Your OTP is ${otp}. It expires in 10 minutes.`,
-    html: `<p>Your OTP is <b>${otp}</b>.</p><p>This OTP expires in 10 minutes.</p>`,
-  });
+  try {
+    await transporter.sendMail({
+      from: smtpFrom,
+      to: recipient,
+      subject: "Your OTP for purchase",
+      text: `Your OTP is ${otp}. It expires in 10 minutes.`,
+      html: `<p>Your OTP is <b>${otp}</b>.</p><p>This OTP expires in 10 minutes.</p>`,
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (/greeting never received/i.test(msg)) {
+      throw new Error(
+        `${msg} — Check SMTP_HOST/SMTP_PORT: use 465 with SMTP_SECURE=true (implicit TLS), or 587 with STARTTLS. ` +
+          `If it still fails, your network may block outbound SMTP; try another network or a provider HTTP API (e.g. SendGrid). ` +
+          `Optional: set SMTP_REQUIRE_TLS=false for unusual servers.`,
+      );
+    }
+    if (/timeout|ETIMEDOUT|ECONNRESET/i.test(msg)) {
+      throw new Error(
+        `${msg} — For GoDaddy email use outgoing host smtpout.secureserver.net (not smtp.secureserver.net). ` +
+          `Try SMTP_FAMILY=4, or port 587 with SMTP_SECURE=false. Asia accounts may need smtpout.asia.secureserver.net.`,
+      );
+    }
+    throw err;
+  }
 }
 
 export const action = async ({ request }) => {
@@ -105,7 +174,12 @@ export const action = async ({ request }) => {
 };
 
 export default function TenKMsmePage() {
-  const checkoutBaseUrl = "https://datastation-store-new.myshopify.com/products/10130566086963";
+  const {
+    shopifyCartBaseUrl,
+    shopifyTenmsmeVariantId,
+    checkoutDefaultCountry,
+    shopifyProductFallbackUrl,
+  } = useLoaderData();
   const fetcher = useFetcher();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -128,14 +202,35 @@ export default function TenKMsmePage() {
   const canVerifyOtp = otp.trim().length === 6;
 
   const handleCheckoutRedirect = () => {
-    const checkoutUrl = new URL(checkoutBaseUrl);
-    checkoutUrl.searchParams.set("checkout[email]", email.trim());
+    const trimmedEmail = email.trim();
+    const base = shopifyCartBaseUrl.replace(/\/$/, "");
+
+    if (shopifyTenmsmeVariantId) {
+      // https://shopify.dev/docs/apps/build/checkout/create-cart-permalinks
+      const cartUrl = new URL(`${base}/cart/${shopifyTenmsmeVariantId}:1`);
+      cartUrl.searchParams.set("checkout[email]", trimmedEmail);
+      // Shows on the order (Notes / attributes) so support can see which inbox was OTP-verified.
+      cartUrl.searchParams.set("attributes[otp_verified_email]", trimmedEmail);
+      // Line item property (visible on order line) — delivery still uses customer email on the order.
+      cartUrl.searchParams.set(
+        "properties",
+        encodeCartLineProperties({ "OTP verified email": trimmedEmail }),
+      );
+      if (checkoutDefaultCountry) {
+        cartUrl.searchParams.set("checkout[shipping_address][country]", checkoutDefaultCountry);
+      }
+      window.open(cartUrl.toString(), "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    const checkoutUrl = new URL(shopifyProductFallbackUrl);
+    checkoutUrl.searchParams.set("checkout[email]", trimmedEmail);
     window.open(checkoutUrl.toString(), "_blank", "noopener,noreferrer");
   };
 
   const mediaData = [
     { type: "image", src: "/10k.webp" },
-    { type: "image", src: "/all_product.png" },
+    { type: "image", src: "/all_product.webp" },
     { type: "video", src: "/data_video.mp4" },
   ];
 
@@ -144,7 +239,7 @@ export default function TenKMsmePage() {
     <div className="pt-30 pb-20 min-[1100px]:px-13 bg-white">
       <div className="mb-8 space-y-4 text-sm leading-relaxed">
         <span className="text-[#5c5c5c] font-bold">Overview</span>
-        <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="w-full " xmlns="http://www.w3.org/2000/svg" style={{height:"30px"}}><path d="M1 20 L520 20 L540 8 L1000 8" fill="none" stroke="#5c5c5c" strokeWidth="1"></path></svg>
+        <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="w-full " xmlns="http://www.w3.org/2000/svg" style={{height:"30px"}}><path d="M1 20 L520 20 L540 8 L1000 8" fill="none" stroke="#ed501f" strokeWidth="1"></path></svg>
         <div className="flex gap-10">
           <div className="w-[50%]">
             <ProductMediaGallery media={mediaData}/>
@@ -186,7 +281,7 @@ export default function TenKMsmePage() {
                   disabled={!canSendOtp || fetcher.state === "submitting"}
                   className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#ed501f] bg-white px-5 py-2.5 text-sm font-semibold text-[#ed501f] transition hover:bg-[#fff1eb] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {fetcher.state === "submitting" ? "Sending OTP..." : "Verify email"}
+                  {fetcher.state === "submitting" ? "Sending OTP..." : "Buy Now"}
                 </button>
               ) : null}
 
@@ -227,6 +322,12 @@ export default function TenKMsmePage() {
                 <>
                   <p className="mt-2 text-sm font-semibold text-green-700">
                     Email verified successfully. You can continue to checkout.
+                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-[#5c5c5c]">
+                    Next, Shopify&apos;s checkout may still ask for billing or tax details — that
+                    step cannot be skipped by link alone. If you see &quot;can&apos;t accept
+                    payments,&quot; turn on a payment method in Shopify Admin → Settings →
+                    Payments.
                   </p>
                   <button
                     type="button"

@@ -12,12 +12,12 @@ const ProductMediaGallery = ({ media = [] }) => {
           <img
             src={selectedMedia.src}
             alt="product"
-            className="w-full h-100 object-cover border-2 border-[#ed501f] rounded-2xl"
+            className="w-full h-140 object-cover border-2 border-[#ed501f] rounded-2xl"
           />
         ) : (
             <video
                 src={selectedMedia.src}
-                className="w-full h-100 object-cover border-2 border-[#ed501f] rounded-2xl"
+                className="w-full h-140 object-cover border-2 border-[#ed501f] rounded-2xl"
                 controls
                 autoPlay
             >
@@ -38,7 +38,7 @@ const ProductMediaGallery = ({ media = [] }) => {
             <button
                 key={item.id}
                 onClick={() => setSelectedMedia(item)}
-                className={`h-20 rounded-md border overflow-hidden ${
+                className={`h-20 rounded-md border overflow-hidden cursor-pointer ${
                     selectedMedia?.src === item.src
                     ? "border-2 border-[#ed501f]"
                     : "border-gray-300"
@@ -57,9 +57,10 @@ const ProductMediaGallery = ({ media = [] }) => {
                     className="object-cover w-full h-full"
                     muted
                     />
-                    {/* ▶ Play Icon */}
-                    <div className="absolute inset-0 flex items-center justify-center text-white text-lg">
-                    ▶
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-[#ed501f] bg-white w-8 h-8 flex items-center justify-center rounded-full text-base">
+                       ▶
+                      </div>
                     </div>
                 </div>
                 )}
