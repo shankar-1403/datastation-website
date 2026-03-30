@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types -- presentational marketing page */
 import { Link } from "react-router";
-import {IconArrowRight,IconBolt,IconBooks,IconCheck,IconCircleCheck,IconDatabase,IconDownload,IconFileSpreadsheet,IconFlag,IconHeartHandshake,IconLock,IconRocket,IconSearch,IconSparkles,IconSpeakerphone,IconTarget,IconTelescope,IconShieldCheck,IconWorld} from "@tabler/icons-react";
+import {IconArrowRight,IconBolt,IconUserFilled,IconBooks,IconCheck,IconCircleCheck,IconDatabase,IconFileTypeXls,IconDownload,IconFileSpreadsheet,IconFlag,IconHeartHandshake,IconLock,IconRocket,IconSearch,IconSparkles,IconSpeakerphone,IconTarget,IconTelescope,IconShieldCheck,IconWorld} from "@tabler/icons-react";
 import { motion } from "motion/react";
 
 const TICK_SEP = "__TICK__";
@@ -53,48 +53,11 @@ export function DataStationLanding() {
   ];
 
   const heroImg = "/hero-data.jpg";
-  // const FEATURED = [
-  //   {
-  //     img: msmeImg,
-  //     tag: "MSME Data",
-  //     title: "10,000 MSME Database",
-  //     desc: "Structured dataset of 10,000 MSME companies across India — ready for sales, partnerships, research, and targeted outreach.",
-  //     fields: ["Company Name", "Industry", "City", "Phone", "Email", "Website"],
-  //     highlight: "10K+ verified companies",
-  //     preview: [
-  //       { name: "Mehta & Sons Pvt", industry: "Textiles", city: "Surat" },
-  //       { name: "BrightTech Solutions", industry: "IT Services", city: "Pune" },
-  //       { name: "AgroFresh India", industry: "Agriculture", city: "Nagpur" },
-  //     ],
-  //   },
-  //   {
-  //     img: angelImg,
-  //     tag: "Investor Data",
-  //     title: "Top 500 Angel Investors",
-  //     desc: "Active angel investors from India, USA & UAE — perfect for startup fundraising and building investor relationships.",
-  //     fields: ["Name", "Firm", "Location", "Email", "Website", "Focus"],
-  //     highlight: "500+ investor profiles",
-  //     regions: [
-  //       { flag: "🇮🇳", country: "India", count: "280 investors" },
-  //       { flag: "🇺🇸", country: "USA", count: "140 investors" },
-  //       { flag: "🇦🇪", country: "UAE", count: "80 investors" },
-  //     ],
-  //   },
-  //   {
-  //     img: vcImg,
-  //     tag: "Investor Data",
-  //     title: "Top 250+ VC & Angel Investors in India",
-  //     desc: "Comprehensive database of venture capital firms and angel investors across India's major startup hubs.",
-  //     fields: ["Name", "Firm", "Stage", "Sector", "Website", "City"],
-  //     highlight: "250+ VC profiles",
-  //     cities: ["Bengaluru", "Mumbai", "Delhi NCR", "Hyderabad"],
-  //   },
-  // ];
 
   const COMPACT = [
-    { title: "10,000 MSME Database", size: "10K", records: "10,000 records" },
-    { title: "20,000 MSME Database", size: "20K", records: "20,000 records" },
-    { title: "30,000 MSME Database", size: "30K", records: "30,000 records" },
+    { title: "10,000 MSME Database", size: "10K", records: "10,000 records",img:"/10k.webp", link: "/app/tenmsme" },
+    { title: "20,000 MSME Database", size: "20K", records: "20,000 records",img:"/20k.webp", link: "/app/twentymsme" },
+    { title: "30,000 MSME Database", size: "30K", records: "30,000 records",img:"/30k.webp", link: "/app/thirtymsme" },
   ];
 
   const VALUES = [
@@ -113,7 +76,6 @@ export function DataStationLanding() {
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link: "/app/databases"
     },
     {
       Icon: IconSpeakerphone,
@@ -124,7 +86,6 @@ export function DataStationLanding() {
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link: "/app/databases"
     },
     {
       Icon: IconRocket,
@@ -135,7 +96,6 @@ export function DataStationLanding() {
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link: "/app/databases"
     },
     {
       Icon: IconSearch,
@@ -146,7 +106,6 @@ export function DataStationLanding() {
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link: "/app/databases"
     },
     {
       Icon: IconHeartHandshake,
@@ -157,7 +116,6 @@ export function DataStationLanding() {
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link: "/app/databases"
     },
     {
       Icon: IconBooks,
@@ -168,7 +126,6 @@ export function DataStationLanding() {
       iconBg: "bg-[hsl(16,92%,53%)/0.12]",
       iconColor: "text-[#ed501f]",
       borderHover: "hover:border-[#ed501f]/30",
-      link: "/app/databases"
     },
   ];
 
@@ -178,7 +135,7 @@ export function DataStationLanding() {
     { Icon: IconCircleCheck, label: "Verified Data" },
     { Icon: IconFlag, label: "India Coverage" },
     { Icon: IconFlag, label: "USA Coverage" },
-    { Icon: IconFlag, label: "UAE Coverage" },
+    { Icon: IconFlag, label: "Global Coverage" },
     { Icon: IconLock, label: "Secure Checkout" },
   ];
   return (
@@ -190,9 +147,9 @@ export function DataStationLanding() {
           <div className="absolute inset-0 bg-linear-to-b from-black/20 via-black/40 to-black/10" />
         </div>
 
-        <div className="relative mx-auto max-w-7xl min-[1100px]:px-13 pb-24 pt-32 md:pb-28 md:pt-38">
+        <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-28 sm:px-6 sm:pt-32 md:pb-28 md:pt-38 min-[1100px]:px-13">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="max-w-3xl"
@@ -202,18 +159,18 @@ export function DataStationLanding() {
               <span>Curated Business Databases</span>
             </div>
 
-            <h1 className="font-heading text-4xl font-bold leading-[1.1] tracking-tight text-background md:text-6xl lg:text-7xl">Your Destination for{" "}
+            <h1 className="font-heading text-[1.75rem] font-bold leading-[1.12] tracking-tight text-background sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">Your Destination for{" "}
               <span className="bg-linear-to-r from-[#ed501f] to-[#d13202] bg-clip-text text-transparent">Smarter Data</span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-background/50">Data Station is a centralized platform designed to make structured and accessible data available to professionals, businesses, and researchers.</p>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-background/50 sm:mt-6 sm:text-lg">Data Station is a centralized platform designed to make structured and accessible data available to professionals, businesses, and researchers.</p>
 
-            <div className="mt-10 flex flex-wrap gap-4">
-              <Link to="/app/databases" className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40">
+            <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-4">
+              <Link to="/app/databases" className="group inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-5 py-3 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40 sm:w-auto sm:px-7 sm:py-3.5 sm:text-base">
                 Browse Databases
                 <IconArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
-              <Link href="/app/about" className="inline-flex items-center gap-2 rounded-xl border border-background/20 px-7 py-3.5 font-heading text-sm font-medium text-background/80 transition-all duration-200 hover:border-background/40 hover:text-background">Learn More</Link>
+              <Link to="/app/about" className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-background/20 px-5 py-3 font-heading text-sm font-medium text-background/80 transition-all duration-200 hover:border-background/40 hover:text-background sm:w-auto sm:px-7 sm:py-3.5 sm:text-base">Learn More</Link>
             </div>
           </motion.div>
         </div>
@@ -239,7 +196,7 @@ export function DataStationLanding() {
       <section id="databases" className="bg-background py-28">
         <div className="mx-auto max-w-7xl min-[1100px]:px-13 px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center"
@@ -257,7 +214,7 @@ export function DataStationLanding() {
             {COMPACT.map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 1, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
@@ -269,22 +226,21 @@ export function DataStationLanding() {
                 </div>
 
                 <div className="relative">
+                  <div className="overflow-hidden rounded-2xl mb-4">
+                    <img src={item.img} alt={item.title} className="aspect-4/3 w-full object-cover"/>
+                  </div>
                   <span className="rounded-lg px-3 py-1 font-heading text-xs font-semibold text-[#ed501f] bg-[#ed501f]/10">
                     MSME Data
                   </span>
-                  <h3 className="mt-4 font-heading text-lg font-bold text-foreground">
+                  <h3 className="mt-2 font-heading text-lg font-bold text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Expanded MSME coverage across multiple industries in India.
-                  </p>
-
-                  <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
                     <IconDownload size={14} className="text-[#ed501f]" />
                     {item.records} · Instant download
                   </div>
 
-                  <Link to="/app/databases" className="mt-5 group/btn inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-4 py-2 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/35">
+                  <Link to={item.link} className="mt-2 group/btn inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-4 py-2 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/25 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/35 sm:w-auto sm:min-h-0">
                     Buy <IconArrowRight size={14} />
                   </Link>
                 </div>
@@ -293,7 +249,7 @@ export function DataStationLanding() {
           </div>
           <div className="flex justify-center mt-8">
             <div>
-              <Link to="/app/databases" className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40">
+              <Link to="/app/databases" className="group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-5 py-3 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40 sm:w-auto sm:px-7 sm:py-3.5 sm:text-base">
                 Explore All Databases
                 <IconArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </Link>
@@ -337,7 +293,7 @@ export function DataStationLanding() {
 
         <div className="relative mx-auto max-w-7xl min-[1100px]:px-13 px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center"
@@ -352,7 +308,7 @@ export function DataStationLanding() {
           <div className="mt-16 grid gap-6 lg:grid-cols-5">
             {/* Mission - larger card */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 1, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -381,7 +337,7 @@ export function DataStationLanding() {
 
             {/* Vision */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 1, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.25 }}
@@ -430,7 +386,7 @@ export function DataStationLanding() {
 
         <div className="relative mx-auto max-w-7xl min-[1100px]:px-13 px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center"
@@ -446,7 +402,7 @@ export function DataStationLanding() {
             {USERS.map((u, i) => (
               <motion.div
                 key={u.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 1, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.07, duration: 0.5 }}
@@ -474,14 +430,7 @@ export function DataStationLanding() {
                       </div>
                     </div>
                   </div>
-
                   <h5 className="font-heading text-lg font-bold text-background">{u.title}</h5>
-
-                  {/* Bottom arrow */}
-                  <Link to={u.link} className="mt-5 flex items-center gap-2 text-xs font-medium text-background/25 transition-colors duration-300 group-hover:text-[#ed501f]">
-                    <span>Explore data</span>
-                    <IconArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </Link>
                 </div>
               </motion.div>
             ))}
@@ -492,7 +441,7 @@ export function DataStationLanding() {
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl min-[1100px]:px-13 px-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center"
@@ -508,7 +457,7 @@ export function DataStationLanding() {
               {WHY.map((w, i) => (
                 <motion.div
                   key={w.title}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 1, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
@@ -527,7 +476,7 @@ export function DataStationLanding() {
 
             {/* Live preview card */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 1, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="rounded-2xl border border-border bg-card p-6 shadow-sm"
@@ -556,9 +505,9 @@ export function DataStationLanding() {
                   <div className="text-xs text-muted-foreground">Available immediately after purchase</div>
                 </div>
               </div>
-              <a href="#databases" className="mt-5 group inline-flex justify-center items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40 w-full text-center">
+              <Link to="/app/databases" className="mt-5 group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-5 py-3 text-center font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40 sm:px-7 sm:py-3.5 sm:text-base">
                 Browse All Databases <IconArrowRight size={16} />
-              </a>
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -577,19 +526,19 @@ export function DataStationLanding() {
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           className="absolute left-[10%] top-[20%] hidden rounded-2xl bg-[#ed501f]/5 p-3 backdrop-blur-sm lg:block"
         >
-          <IconDatabase size={28} className="text-white/30" />
+          <IconUserFilled size={24} className="text-white/80" />
         </motion.div>
         <motion.div
           animate={{ y: [0, 12, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           className="absolute right-[12%] top-[30%] hidden rounded-2xl bg-[#ed501f]/5 p-3 backdrop-blur-sm lg:block"
         >
-          <IconDownload size={28} className="text-white/30" />
+          <IconFileTypeXls size={24} className="text-white/80" />
         </motion.div>
 
         <div className="relative mx-auto max-w-4xl px-6">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 1, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
@@ -621,14 +570,14 @@ export function DataStationLanding() {
               </span>
               ?
             </h5>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-background/60">Our platform serves as a hub where users can explore a wide range of databases covering businesses, industries, startups, investors, and other professional networks.</p>
+            <p className="mx-auto mt-5 max-w-2xl text-base text-background/60 sm:text-lg">Our platform serves as a hub where users can explore a wide range of databases covering businesses, industries, startups, investors, and other professional networks.</p>
 
             {/* Stats row */}
             <div className="mx-auto mt-10 flex max-w-sm justify-center divide-x divide-background/10">
               {STATS.map((s) => (
                 <motion.div
                   key={s.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={{ opacity: 1, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   className="flex-1 px-6 py-2 text-center"
@@ -644,11 +593,11 @@ export function DataStationLanding() {
             </div>
 
             {/* CTA buttons */}
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <a href="#databases" className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40">Browse Databases
+            <div className="mt-10 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <Link to="/app/databases" className="group inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-5 py-3 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40 sm:w-auto sm:px-7 sm:py-3.5 sm:text-base">Browse Databases
                 <IconArrowRight size={18} className="transition-transform group-hover:translate-x-1"/>
-              </a>
-              <Link to="/app/contact" className="inline-flex items-center gap-2 rounded-xl border-2 border-background/20 px-8 py-4 font-heading text-sm font-semibold text-background/80 transition-all duration-300 hover:border-background/40 hover:bg-background/5">
+              </Link>
+              <Link to="/app/contact" className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border-2 border-background/20 px-5 py-3 font-heading text-sm font-semibold text-background/80 transition-all duration-300 hover:border-background/40 hover:bg-background/5 sm:w-auto sm:px-8 sm:py-3.5 sm:text-base">
                 Contact Us
               </Link>
             </div>

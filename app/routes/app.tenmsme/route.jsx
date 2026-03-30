@@ -1,17 +1,19 @@
+/* eslint-disable no-undef */
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { useEffect, useMemo, useState } from "react";
 import { useFetcher, useLoaderData } from "react-router";
+import { DATA_PRODUCTS, productUrl } from "../../lib/catalog";
 import { authenticate } from "../../shopify.server";
 import ProductMediaGallery from "../../components/ui/productMediaGallery";
+import { DatabaseCarousel } from "../../components/DatabaseCarousel";
+
+const TENMSME_HANDLE = DATA_PRODUCTS.find((p) => p.id === "msme-10k")?.handle ?? "10-000-msme-database";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
-  // Cart permalink opens checkout with the line item (skips product + cart). Set variant ID from
-  // Admin → Product → variant row (or JSON in product URL). Not the same as product ID.
+  const storefrontBase = process.env.PUBLIC_SHOPIFY_CART_BASE_URL || "https://datastation.myshopify.com";
   return {
-    shopifyCartBaseUrl:
-      process.env.PUBLIC_SHOPIFY_CART_BASE_URL ||
-      "https://datastation.myshopify.com",
+    shopifyCartBaseUrl: storefrontBase,
     /** Required for best checkout UX. Example: PUBLIC_SHOPIFY_TENMSME_VARIANT_ID=1234567890 */
     shopifyTenmsmeVariantId: process.env.PUBLIC_SHOPIFY_TENMSME_VARIANT_ID || "",
     /** ISO 3166-1 alpha-2, e.g. IN — prefills country to reduce checkout fields */
@@ -19,7 +21,7 @@ export const loader = async ({ request }) => {
     /** Fallback if variant id is missing — product page + prefill (extra steps) */
     shopifyProductFallbackUrl:
       process.env.PUBLIC_SHOPIFY_TENMSME_PRODUCT_URL ||
-      "https://datastation.myshopify.com/products/9225317056727",
+      productUrl(storefrontBase, TENMSME_HANDLE),
   };
 };
 
@@ -207,7 +209,7 @@ export default function TenKMsmePage() {
 
     if (shopifyTenmsmeVariantId) {
       // https://shopify.dev/docs/apps/build/checkout/create-cart-permalinks
-      const cartUrl = new URL(`${base}/cart/${shopifyTenmsmeVariantId}:1`);
+      const cartUrl = new URL(`${base}/products/${shopifyTenmsmeVariantId}:1`);
       cartUrl.searchParams.set("checkout[email]", trimmedEmail);
       // Shows on the order (Notes / attributes) so support can see which inbox was OTP-verified.
       cartUrl.searchParams.set("attributes[otp_verified_email]", trimmedEmail);
@@ -236,115 +238,132 @@ export default function TenKMsmePage() {
 
 
   return (
-    <div className="pt-30 pb-20 min-[1100px]:px-13 bg-white">
+    <div className="max-w-full overflow-x-hidden pt-30 pb-20 px-4 sm:px-6 lg:px-8 min-[1100px]:px-13 bg-white">
       <div className="mb-8 space-y-4 text-sm leading-relaxed">
-        <span className="text-[#5c5c5c] font-bold">Overview</span>
+        <span className="text-xs font-bold text-[#5c5c5c] sm:text-sm">Overview</span>
         <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="w-full " xmlns="http://www.w3.org/2000/svg" style={{height:"30px"}}><path d="M1 20 L520 20 L540 8 L1000 8" fill="none" stroke="#ed501f" strokeWidth="1"></path></svg>
-        <div className="flex gap-10">
-          <div className="w-[50%]">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
+          <div className="min-w-0">
             <ProductMediaGallery media={mediaData}/>
           </div>
-          <div className="w-[50%]">
-            <h1 className="font-heading text-4xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:text-7xl text-[#ed501f]">10,000 MSME Database</h1>
-            <p className="mt-6 text-lg leading-relaxed text-[#5c5c5c]">
+          <div className="min-w-0">
+            <h1 className="font-heading text-3xl font-bold leading-[1.1] tracking-tight text-[#ed501f] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">10,000 MSME Database</h1>
+            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">
               The 10,000 MSME Database provides access to a structured dataset of MSME companies across India.
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-[#5c5c5c]">
+            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">
               This dataset is designed for professionals who want to connect with businesses for sales, partnerships, research, or outreach campaigns.
             </p>
-            <p className="mt-6 text-lg leading-relaxed text-[#5c5c5c]">
+            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">
               The data is organized and delivered in Excel format so it can be easily filtered, sorted, and used.
             </p>
-            <div className="mt-8 max-w-lg rounded-2xl border border-[#ed501f]/30 bg-[#fff8f5] p-5">
-              <label htmlFor="buyer-email" className="mb-2 block text-sm font-semibold text-[#5c5c5c]">Verify your email with OTP</label>
+            <div className="mt-6 max-w-lg rounded-2xl border border-[#ed501f]/30 bg-[#fff8f5] p-5 transition-all duration-300">
+
+              {/* EMAIL INPUT */}
+              <label htmlFor="Email" className="mb-2 block text-sm font-semibold text-[#5c5c5c]">Verify your email</label>
               <input
-                id="buyer-email"
                 type="email"
                 value={email}
-                onChange={(event) => {
-                  setEmail(event.target.value);
+                onChange={(e) => {
+                  setEmail(e.target.value);
                   setIsEmailVerified(false);
+                  setIsOtpSent(false);
+                  setOtp("");
                 }}
                 placeholder="you@example.com"
-                className="w-full rounded-xl border border-[#ed501f]/30 bg-white px-4 py-3 text-sm text-[#5c5c5c] outline-none transition focus:border-[#ed501f]"
-                disabled={isEmailVerified}
+                disabled={isOtpSent}
+                className={`w-full rounded-xl border px-4 py-3 transition 
+                  ${isOtpSent ? "bg-gray-100 cursor-not-allowed" : "bg-white"}
+                  border-[#ed501f]/30 focus:border-[#ed501f]`}
               />
-              {!isEmailVerified ? (
+
+              {/* SEND OTP */}
+              {!isOtpSent && (
                 <button
-                  type="button"
                   onClick={() =>
                     fetcher.submit(
                       { intent: "send-otp", email: email.trim() },
-                      { method: "post" },
+                      { method: "post" }
                     )
                   }
                   disabled={!canSendOtp || fetcher.state === "submitting"}
-                  className="mt-4 inline-flex items-center gap-2 rounded-xl border border-[#ed501f] bg-white px-5 py-2.5 text-sm font-semibold text-[#ed501f] transition hover:bg-[#fff1eb] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="mt-4 w-full rounded-xl border border-[#ed501f] py-3 font-semibold text-[#ed501f] hover:bg-[#fff1eb]"
                 >
-                  {fetcher.state === "submitting" ? "Sending OTP..." : "Buy Now"}
+                  {fetcher.state === "submitting" ? "Sending OTP..." : "Send OTP"}
                 </button>
-              ) : null}
+              )}
 
-              {isOtpSent && !isEmailVerified ? (
-                <div className="mt-4">
-                  <label htmlFor="otp-input" className="mb-2 block text-sm font-semibold text-[#5c5c5c]">
-                    Step 2: Enter OTP
-                  </label>
-                  <input
-                    id="otp-input"
-                    type="text"
-                    value={otp}
-                    maxLength={6}
-                    onChange={(event) =>
-                      setOtp(event.target.value.replace(/\D/g, "").slice(0, 6))
-                    }
-                    placeholder="Enter 6-digit OTP"
-                    className="w-full rounded-xl border border-[#ed501f]/30 bg-white px-4 py-3 text-sm text-[#5c5c5c] outline-none transition focus:border-[#ed501f]"
-                  />
+              {/* OTP SECTION */}
+              <div
+                className={`transition-all duration-300 overflow-hidden ${
+                  isOtpSent ? "max-h-40 opacity-100 mt-4" : "max-h-0 opacity-0"
+                }`}
+              >
+                <label htmlFor="enter otp" className="mb-2 block text-sm font-semibold text-[#5c5c5c]">Enter OTP</label>
+                <input
+                  type="text"
+                  value={otp}
+                  maxLength={6}
+                  onChange={(e) =>
+                    setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
+                  }
+                  className="w-full rounded-xl border border-[#ed501f]/30 px-4 py-3"
+                  placeholder="6-digit OTP"
+                />
+
+                <div className="flex gap-3 mt-3">
                   <button
-                    type="button"
                     onClick={() =>
                       fetcher.submit(
                         { intent: "verify-otp", email: email.trim(), otp: otp.trim() },
-                        { method: "post" },
+                        { method: "post" }
                       )
                     }
                     disabled={!canVerifyOtp || fetcher.state === "submitting"}
-                    className="mt-3 inline-flex items-center gap-2 rounded-xl border border-[#ed501f] bg-white px-5 py-2.5 text-sm font-semibold text-[#ed501f] transition hover:bg-[#fff1eb] disabled:cursor-not-allowed disabled:opacity-60"
+                    className="flex-1 rounded-xl bg-[#ed501f] text-white py-3 font-semibold"
                   >
                     {fetcher.state === "submitting" ? "Verifying..." : "Verify OTP"}
                   </button>
-                </div>
-              ) : null}
 
-              {errorMessage ? <p className="mt-2 text-sm text-red-600">{errorMessage}</p> : null}
-              {isEmailVerified ? (
-                <>
-                  <p className="mt-2 text-sm font-semibold text-green-700">
-                    Email verified successfully. You can continue to checkout.
-                  </p>
-                  <p className="mt-2 text-xs leading-relaxed text-[#5c5c5c]">
-                    Next, Shopify&apos;s checkout may still ask for billing or tax details — that
-                    step cannot be skipped by link alone. If you see &quot;can&apos;t accept
-                    payments,&quot; turn on a payment method in Shopify Admin → Settings →
-                    Payments.
-                  </p>
                   <button
-                    type="button"
+                    onClick={() =>
+                      fetcher.submit(
+                        { intent: "send-otp", email: email.trim() },
+                        { method: "post" }
+                      )
+                    }
+                    className="flex-1 rounded-xl border border-[#ed501f] py-3 text-[#ed501f]"
+                  >
+                    Resend
+                  </button>
+                </div>
+              </div>
+
+              {/* ERROR */}
+              {errorMessage && (
+                <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
+              )}
+
+              {/* SUCCESS */}
+              {isEmailVerified && (
+                <div className="mt-4">
+                  <p className="text-green-600 font-semibold">
+                    ✅ Email verified successfully
+                  </p>
+
+                  <button
                     onClick={handleCheckoutRedirect}
-                    disabled={!isEmailVerified}
-                    className="mt-4 group inline-flex items-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-7 py-3.5 font-heading text-sm font-semibold text-white shadow-lg shadow-[#ed501f]/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#ed501f]/40"
+                    className="mt-3 w-full rounded-xl bg-gradient-to-r from-[#ed501f] to-[#cf3101] text-white py-3 font-semibold"
                   >
                     Continue to Buy
                   </button>
-                </>
-              ) : null}
-
-              
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+      <DatabaseCarousel excludeProductId="msme-10k" />
     </div>
   );
 }

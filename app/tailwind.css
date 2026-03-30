@@ -12,13 +12,14 @@
   --color-ds-grey-bg: #f5f5f5;
   --color-ds-grey-accent: #8a8a8a;
   --color-ds-white: #ffffff;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-heading: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  /* Bundled via @fontsource-variable/inter — avoids extra Google Fonts request blocking paint */
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, monospace;
 
-  /* Marketing landing (light: white surfaces, gray body type) */
-  --font-ds-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-ds-body: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  /* Marketing landing — same stack as sans for fast first paint (no remote font CSS) */
+  --font-ds-display: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-ds-body: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --color-ds-m-bg: #ffffff;
   --color-ds-m-bg2: #f4f4f6;
   --color-ds-m-bg3: #f8f8fa;
@@ -279,10 +280,51 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
+  /* Align with app shell (routes/app.jsx) — avoids white ↔ grey flash when Tailwind hydrates */
   html {
-    @apply font-sans;
+    @apply bg-ds-grey-bg font-sans;
+  }
+  body {
+    @apply bg-ds-grey-bg text-foreground antialiased;
+  }
+
+  /* Logo dimensions (also in root before full CSS if ever split — keeps CLS stable) */
+  [data-ds-header-logo] {
+    display: block;
+    height: 40px;
+    width: auto;
+    max-width: min(200px, 100%);
+    object-fit: contain;
+    object-position: left center;
+  }
+  @media (min-width: 640px) {
+    [data-ds-header-logo] {
+      height: 48px;
+      max-width: 220px;
+    }
+  }
+  @media (min-width: 768px) {
+    [data-ds-header-logo] {
+      height: 64px;
+      max-width: 260px;
+    }
+  }
+  [data-ds-footer-logo] {
+    display: block;
+    height: 48px;
+    width: auto;
+    max-width: min(220px, 100%);
+    object-fit: contain;
+    object-position: left center;
+  }
+  @media (min-width: 640px) {
+    [data-ds-footer-logo] {
+      height: 56px;
+    }
+  }
+  @media (min-width: 768px) {
+    [data-ds-footer-logo] {
+      height: 64px;
+    }
   }
 }

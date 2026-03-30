@@ -1,9 +1,10 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
-import tailwindStylesheetUrl from "./tailwind.css?url";
+/* Inlined processed CSS — first paint has full styles (no wait for separate .css request). */
+import tailwindCss from "./tailwind.css?inline";
 
-/** Render-blocking stylesheet so embedded Shopify iframe gets CSS before paint (avoids FOUC). */
+/** Preload logo only. Main styles ship inside <style> in <head> (see tailwindCss). */
 export function links() {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [{ rel: "preload", href: "/datastation.webp", as: "image" }];
 }
 
 export default function App() {
@@ -12,9 +13,12 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;500;600&display=optional" rel="stylesheet"/>
+        {/* Tiny first paint — parsed before the large Tailwind block; avoids white flash while CSS parses */}
+        <style>
+          {`html,body{background-color:#f5f5f5;color:#171717;margin:0}`}
+        </style>
+        {/* eslint-disable-next-line react/no-danger -- SSR: full Tailwind bundle */}
+        <style dangerouslySetInnerHTML={{ __html: tailwindCss }} />
         <Meta />
         <Links />
       </head>

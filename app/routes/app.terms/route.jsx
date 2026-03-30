@@ -8,7 +8,7 @@ export const loader = async ({ request }) => {
 
 export default function TermsPage() {
   return (
-    <div className="pt-30 pb-10 w-full min-[1100px]:px-13">
+    <div className="w-full px-4 pb-10 pt-30 sm:px-6 lg:px-8 min-[1100px]:px-13">
       <article className="rounded-xl border border-black/5 bg-ds-white p-6 shadow-sm md:p-8">
         <h1 className="font-heading text-2xl font-bold text-[#ed501f] mb-2">1. Acceptance of Terms</h1>
         <p className="text-[#5c5c5c] text-base">By accessing or purchasing from Data Station, you agree to these Terms & Conditions.</p>

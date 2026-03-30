@@ -5,19 +5,19 @@ const ProductMediaGallery = ({ media = [] }) => {
   const [selectedMedia, setSelectedMedia] = useState(media[0]);
 
   return (
-    <div className="w-full">
+    <div className="w-full min-w-0 max-w-full overflow-hidden">
       {/* 🔥 Main Preview */}
       <div className="w-full">
         {selectedMedia?.type === "image" ? (
           <img
             src={selectedMedia.src}
             alt="product"
-            className="w-full h-140 object-cover border-2 border-[#ed501f] rounded-2xl"
+            className="h-[min(50vh,22rem)] w-full max-w-full rounded-2xl border-2 border-[#ed501f] object-cover sm:h-80 md:h-96 lg:h-112 xl:h-140"
           />
         ) : (
             <video
                 src={selectedMedia.src}
-                className="w-full h-140 object-cover border-2 border-[#ed501f] rounded-2xl"
+                className="h-[min(50vh,22rem)] w-full max-w-full rounded-2xl border-2 border-[#ed501f] object-cover sm:h-80 md:h-96 lg:h-112 xl:h-140"
                 controls
                 autoPlay
             >
@@ -33,12 +33,12 @@ const ProductMediaGallery = ({ media = [] }) => {
       </div>
 
       {/* 🔥 Thumbnails */}
-      <div className="grid grid-cols-6 gap-2 w-full mt-3">
+      <div className="mt-3 grid w-full grid-cols-3 gap-2 sm:grid-cols-6">
         {media.map((item, index) => (
             <button
                 key={item.id}
                 onClick={() => setSelectedMedia(item)}
-                className={`h-20 rounded-md border overflow-hidden cursor-pointer ${
+                className={`h-14 cursor-pointer overflow-hidden rounded-md border sm:h-16 md:h-20 ${
                     selectedMedia?.src === item.src
                     ? "border-2 border-[#ed501f]"
                     : "border-gray-300"

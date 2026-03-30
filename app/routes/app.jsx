@@ -37,14 +37,17 @@ export default function App() {
   return (
     <AppProvider embedded apiKey={apiKey}>
       <Header sampleDownloadUrl={sampleDownloadUrl} />
-      <s-app-nav>
-        {APP_NAV_LINKS.map((item) => (
-          <s-link key={item.to} to={`${item.to}${location.search}`}>
-            {item.label}
-          </s-link>
-        ))}
-      </s-app-nav>
-      <div className="min-h-full bg-ds-grey-bg">
+      {/* Horizontal scroll only on small screens where nav labels need it; laptop+ uses normal flow (no x-scroll trap). */}
+      <div className="w-full max-w-full overflow-x-auto overflow-y-hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:overflow-x-visible md:overflow-y-visible">
+        <s-app-nav>
+          {APP_NAV_LINKS.map((item) => (
+            <s-link key={item.to} to={`${item.to}${location.search}`}>
+              {item.label}
+            </s-link>
+          ))}
+        </s-app-nav>
+      </div>
+      <div className="min-h-full max-w-full overflow-x-hidden bg-ds-grey-bg">
         <Outlet
           context={{
             storefrontBaseUrl,

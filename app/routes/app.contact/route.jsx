@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useFetcher } from "react-router";
 import { boundary } from "@shopify/shopify-app-react-router/server";
 import { authenticate } from "../../shopify.server";
@@ -10,15 +11,50 @@ export const loader = async ({ request }) => {
 
 export const action = async ({ request }) => {
   await authenticate.admin(request);
+
   const formData = await request.formData();
   const name = formData.get("name");
   const email = formData.get("email");
   const message = formData.get("message");
+
   if (!email || !message) {
     return { ok: false, error: "Email and message are required." };
   }
-  // Hook email provider here if needed; for now acknowledge only.
-  return { ok: true, name, email };
+
+  try {
+    const nodemailer = (await import("nodemailer")).default;
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT || 587),
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM,
+      to: process.env.SMTP_TO || process.env.SMTP_USER, // 👈 where you receive messages
+      subject: "New Contact Form Submission",
+      html: `
+        <h3>New Message Received</h3>
+        <p><b>Name:</b> ${name || "N/A"}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Message:</b></p>
+        <p>${message}</p>
+      `,
+    });
+
+    return { ok: true, name, email };
+
+  } catch (error) {
+    return {
+      ok: false,
+      error: "Failed to send message. Try again later.",
+    };
+  }
 };
 
 export default function ContactPage() {
@@ -26,7 +62,7 @@ export default function ContactPage() {
   const ok = fetcher.data?.ok === true;
 
   return (
-    <div className="min-[1100px]:px-13 px-6 pt-30 pb-20">
+    <div className="px-4 pb-20 pt-30 sm:px-6 lg:px-8 min-[1100px]:px-13">
       <section className="relative mb-8 overflow-hidden rounded-2xl border border-zinc-200 bg-linear-to-br from-[#fff7f4] via-white to-[#fff3ec] p-7 shadow-[0_10px_30px_rgba(0,0,0,0.05)] md:p-9">
         <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-ds-orange/10 blur-2xl" />
         <div className="relative">
@@ -34,7 +70,7 @@ export default function ContactPage() {
             <IconMessageCircle size={14} stroke={2} aria-hidden />
             Contact & Support
           </div>
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-[#5c5c5c] md:text-4xl">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-[#5c5c5c] sm:text-3xl md:text-4xl">
             Let&apos;s Talk About Your Data Needs
           </h2>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ds-grey-accent md:text-base">Reach out for dataset questions, licensing support, or custom data requirements.</p>
@@ -80,7 +116,7 @@ export default function ContactPage() {
             </div>
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-ds-orange py-3 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(240,74,29,0.28)] transition hover:bg-[#5c5c5c] disabled:opacity-50"
+              className="inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-lg bg-ds-orange px-4 py-3 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(240,74,29,0.28)] transition hover:bg-[#5c5c5c] disabled:opacity-50 sm:text-base"
               disabled={fetcher.state === "submitting"}
             >
               <IconSend size={14} stroke={2} aria-hidden />
