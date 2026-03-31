@@ -30,14 +30,14 @@ const otpStore = new Map();
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Cart permalink line item properties: Base64 URL-encoded JSON (see Shopify “Create cart permalinks”). */
-function encodeCartLineProperties(props) {
-  const json = JSON.stringify(props);
-  const bytes = new TextEncoder().encode(json);
-  let bin = "";
-  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-  const b64 = btoa(bin);
-  return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
+// function encodeCartLineProperties(props) {
+//   const json = JSON.stringify(props);
+//   const bytes = new TextEncoder().encode(json);
+//   let bin = "";
+//   for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+//   const b64 = btoa(bin);
+//   return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+// }
 
 function generateOtp() {
   return `${Math.floor(100000 + Math.random() * 900000)}`;
@@ -176,12 +176,7 @@ export const action = async ({ request }) => {
 };
 
 export default function TenKMsmePage() {
-  const {
-    shopifyCartBaseUrl,
-    shopifyTenmsmeVariantId,
-    checkoutDefaultCountry,
-    shopifyProductFallbackUrl,
-  } = useLoaderData();
+  const {shopifyCartBaseUrl} = useLoaderData();
   const fetcher = useFetcher();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -203,33 +198,38 @@ export default function TenKMsmePage() {
   const canSendOtp = useMemo(() => EMAIL_REGEX.test(email.trim()), [email]);
   const canVerifyOtp = otp.trim().length === 6;
 
+  const shopifyTenmsmeVariantId = 48437989081303; 
   const handleCheckoutRedirect = () => {
     const trimmedEmail = email.trim();
-    const base = shopifyCartBaseUrl.replace(/\/$/, "");
 
-    if (shopifyTenmsmeVariantId) {
-      // https://shopify.dev/docs/apps/build/checkout/create-cart-permalinks
-      const cartUrl = new URL(`${base}/products/${shopifyTenmsmeVariantId}:1`);
-      cartUrl.searchParams.set("checkout[email]", trimmedEmail);
-      // Shows on the order (Notes / attributes) so support can see which inbox was OTP-verified.
-      cartUrl.searchParams.set("attributes[otp_verified_email]", trimmedEmail);
-      // Line item property (visible on order line) — delivery still uses customer email on the order.
-      cartUrl.searchParams.set(
-        "properties",
-        encodeCartLineProperties({ "OTP verified email": trimmedEmail }),
-      );
-      if (checkoutDefaultCountry) {
-        cartUrl.searchParams.set("checkout[shipping_address][country]", checkoutDefaultCountry);
-      }
-      window.open(cartUrl.toString(), "_blank", "noopener,noreferrer");
-      return;
-    }
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = `${shopifyCartBaseUrl}/cart/add`;
+    form.target = "_blank";
 
-    const checkoutUrl = new URL(shopifyProductFallbackUrl);
-    checkoutUrl.searchParams.set("checkout[email]", trimmedEmail);
-    window.open(checkoutUrl.toString(), "_blank", "noopener,noreferrer");
+    // ✅ Variant ID used here
+    const idInput = document.createElement("input");
+    idInput.type = "hidden";
+    idInput.name = "id";
+    idInput.value = shopifyTenmsmeVariantId;
+
+    const qtyInput = document.createElement("input");
+    qtyInput.type = "hidden";
+    qtyInput.name = "quantity";
+    qtyInput.value = "1";
+
+    const propInput = document.createElement("input");
+    propInput.type = "hidden";
+    propInput.name = "properties[OTP verified email]";
+    propInput.value = trimmedEmail;
+
+    form.appendChild(idInput);
+    form.appendChild(qtyInput);
+    form.appendChild(propInput);
+
+    document.body.appendChild(form);
+    form.submit();
   };
-
   const mediaData = [
     { type: "image", src: "/10k.webp" },
     { type: "image", src: "/all_product.webp" },

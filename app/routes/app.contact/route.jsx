@@ -36,7 +36,7 @@ export const action = async ({ request }) => {
 
     await transporter.sendMail({
       from: process.env.SMTP_FROM,
-      to: process.env.SMTP_TO || process.env.SMTP_USER, // 👈 where you receive messages
+      to: process.env.SMTP_TO || process.env.SMTP_USER,
       subject: "New Contact Form Submission",
       html: `
         <h3>New Message Received</h3>
