@@ -238,7 +238,7 @@ export default function TenKMsmePage() {
 
 
   return (
-    <div className="max-w-full overflow-x-hidden pt-30 pb-20 px-4 sm:px-6 lg:px-8 min-[1100px]:px-13 bg-white">
+    <div className="max-w-full overflow-x-hidden bg-white px-4 pb-20 pt-20 sm:px-6 sm:pt-24 lg:px-8 lg:pt-30 min-[1100px]:px-13">
       <div className="mb-8 space-y-4 text-sm leading-relaxed">
         <span className="text-xs font-bold text-[#5c5c5c] sm:text-sm">Overview</span>
         <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="w-full " xmlns="http://www.w3.org/2000/svg" style={{height:"30px"}}><path d="M1 20 L520 20 L540 8 L1000 8" fill="none" stroke="#ed501f" strokeWidth="1"></path></svg>
@@ -247,7 +247,7 @@ export default function TenKMsmePage() {
             <ProductMediaGallery media={mediaData}/>
           </div>
           <div className="min-w-0">
-            <h1 className="font-heading text-3xl font-bold leading-[1.1] tracking-tight text-[#ed501f] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">10,000 MSME Database</h1>
+            <h1 className="font-heading text-2xl font-bold leading-[1.1] tracking-tight text-[#ed501f] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">10,000 MSME Database</h1>
             <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">
               The 10,000 MSME Database provides access to a structured dataset of MSME companies across India.
             </p>
@@ -295,8 +295,8 @@ export default function TenKMsmePage() {
 
               {/* OTP SECTION */}
               <div
-                className={`transition-all duration-300 overflow-hidden ${
-                  isOtpSent ? "max-h-40 opacity-100 mt-4" : "max-h-0 opacity-0"
+                className={`overflow-hidden transition-all duration-300 ${
+                  isOtpSent ? "mt-4 max-h-60 opacity-100 sm:max-h-40" : "max-h-0 opacity-0"
                 }`}
               >
                 <label htmlFor="enter otp" className="mb-2 block text-sm font-semibold text-[#5c5c5c]">Enter OTP</label>
@@ -311,7 +311,7 @@ export default function TenKMsmePage() {
                   placeholder="6-digit OTP"
                 />
 
-                <div className="flex gap-3 mt-3">
+                <div className="mt-3 flex flex-col gap-3 sm:flex-row">
                   <button
                     onClick={() =>
                       fetcher.submit(
@@ -353,7 +353,7 @@ export default function TenKMsmePage() {
 
                   <button
                     onClick={handleCheckoutRedirect}
-                    className="mt-3 w-full rounded-xl bg-gradient-to-r from-[#ed501f] to-[#cf3101] text-white py-3 font-semibold"
+                    className="mt-3 w-full rounded-xl bg-linear-to-r from-[#ed501f] to-[#cf3101] py-3 font-semibold text-white"
                   >
                     Continue to Buy
                   </button>
