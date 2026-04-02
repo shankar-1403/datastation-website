@@ -10,7 +10,7 @@ export function Footer() {
         h: "Pages",
         links: [
           { label: "Home", to: "/app" },
-          { label: "Databases", to: "/app/databases" },
+          { label: "Products", to: "/app/products" },
           { label: "About", to: "/app/about" },
           { label: "Contact", to: "/app/contact" },
         ],
@@ -43,8 +43,8 @@ export function Footer() {
           <p className="mb-4 max-w-xs text-sm leading-[1.8] text-[#5c5c5c] sm:text-[13px] sm:text-justify">
             Data Station is a centralized platform designed to make structured and accessible data available to professionals, businesses, and researchers.
           </p>
-          <a href="mailto:support@datastation.in" className="text-sm text-[#ed501f] no-underline transition-opacity hover:opacity-70 sm:text-[13px]">
-            support@datastation.in
+          <a href="mailto:info@datastation.in" className="text-sm text-[#ed501f] no-underline transition-opacity hover:opacity-70 sm:text-[13px]">
+            info@datastation.in
           </a>
         </div>
         <div className="grid grid-cols-2 gap-8 sm:flex sm:flex-wrap sm:gap-12 md:gap-16 lg:gap-20">

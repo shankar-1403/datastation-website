@@ -4,7 +4,7 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 
 const NAV_LINKS = [
   { label: "Home", to: "/app" },
-  { label: "Databases", to: "/app/databases" },
+  { label: "Products", to: "/app/products" },
   { label: "About", to: "/app/about" },
   { label: "Contact", to: "/app/contact" },
 ];

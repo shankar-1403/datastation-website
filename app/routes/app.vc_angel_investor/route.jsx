@@ -43,6 +43,17 @@ export default function VcAngelInvestorPage() {
     { type: "video", src: "/data_video.mp4" },
   ];
 
+  const getProductPrice = (id) => {
+    const item = DATA_PRODUCTS.find((p) => p.id === id) || {};
+    return {
+      cutPrice: item.cutPrice,
+      percentOff: item.percentOff,
+      price: item.price,
+    };
+  };
+
+  const item = getProductPrice("vc-250");
+  
   return (
     <div className="max-w-full overflow-x-hidden bg-white px-4 pb-20 pt-20 sm:px-6 sm:pt-24 lg:px-8 lg:pt-30 min-[1100px]:px-13">
       <div className="mb-8 space-y-4 text-sm leading-relaxed">
@@ -81,17 +92,13 @@ export default function VcAngelInvestorPage() {
               investor profiles.
             </p>
             <div className="mt-6 max-w-lg rounded-2xl border border-[#ed501f]/30 bg-[#fff8f5] p-5 transition-all duration-300">
-              <p className="text-sm leading-relaxed text-[#5c5c5c]">
-                Purchase through Shopify checkout. After payment, your Excel file is delivered to the email you enter at
-                checkout.
-              </p>
-              <button
-                type="button"
-                onClick={handleBuy}
-                className="mt-4 w-full rounded-xl bg-linear-to-r from-[#ed501f] to-[#cf3101] py-3 font-semibold text-white cursor-pointer"
-              >
-                Buy now
-              </button>
+              <p className="text-sm leading-relaxed text-[#5c5c5c]">After payment, your Excel file is delivered to the email you enter at checkout.</p>
+              <div className="flex items-center gap-1">
+                <p className="text-xl font-bold">{item.percentOff}% off</p>
+                <p className="text-xl text-muted-foreground line-through">₹{item.cutPrice.toLocaleString()}</p>
+                <p className="text-xl text-[#ed501f] font-bold">₹{item.price.toLocaleString()}</p>
+              </div>
+              <button type="button" onClick={handleBuy} className="mt-4 w-full rounded-xl bg-linear-to-r from-[#ed501f] to-[#cf3101] py-3 font-semibold text-white cursor-pointer">Buy now</button>
             </div>
           </div>
         </div>

@@ -1,9 +1,10 @@
 import { Link, useLocation } from "react-router";
 import { useRef } from "react";
 import { otherDatabaseProducts } from "../lib/catalog";
-import {IconArrowRight,IconArrowLeft} from "@tabler/icons-react";
+import {IconArrowRight,IconArrowLeft,IconDownload} from "@tabler/icons-react";
 
-export function DatabaseCarousel({ excludeProductId }) {
+// eslint-disable-next-line react/prop-types
+export function DatabaseCarousel({ excludeProductId,length }) {
   const { search } = useLocation();
   const items = otherDatabaseProducts(excludeProductId);
   const scrollRef = useRef(null);
@@ -14,7 +15,7 @@ export function DatabaseCarousel({ excludeProductId }) {
     const container = scrollRef.current;
     if (!container) return;
 
-    const scrollAmount = container.clientWidth * 0.8;
+    const scrollAmount = container.clientWidth * 2; 
 
     container.scrollBy({
       left: direction === "left" ? -scrollAmount : scrollAmount,
@@ -24,12 +25,9 @@ export function DatabaseCarousel({ excludeProductId }) {
 
   return (
     <section
-      className="mt-14 border-t border-[#ed501f]/15 pt-10 sm:mt-16 sm:pt-12"
+      className="mt-14 pt-10 sm:mt-16 sm:pt-12"
       aria-labelledby="ds-db-carousel-heading"
     >
-      <h2 className="font-heading text-lg font-bold text-[#5c5c5c] sm:text-xl">
-        Explore other databases
-      </h2>
 
       <div className="relative mt-6">
         
@@ -42,26 +40,42 @@ export function DatabaseCarousel({ excludeProductId }) {
         {/* SCROLL CONTAINER */}
         <div
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto scroll-smooth pb-3 pl-8 pr-8 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-4 overflow-x-auto scroll-smooth pb-3 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {items.map((product) => (
-            <div key={product.id} className="snap-start shrink-0 w-[min(17.5rem,82vw)] rounded-2xl border border-[#ed501f]/20 bg-white shadow-md transition hover:shadow-lg">
-              <div className="overflow-hidden rounded-t-2xl">
-                <img src={product.carouselImage} alt={product.title} className="aspect-4/3 w-full object-cover"/>
-              </div>
+          {items.slice(0, length || items.length).map((item,i) => (
+            <div key={i} className="min-w-full sm:min-w-[50%] lg:min-w-[30%]">
+              <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                    
+                <div className="absolute -bottom-3 -right-2 font-heading text-7xl font-black text-muted/50 group-hover:text-[#ed501f]/10">
+                {item.size}
+                </div>
 
-              <div className="p-4">
-                <span className="text-[11px] font-semibold uppercase text-[#ed501f]">
-                  {product.category}
-                </span>
+                <div className="relative">
+                  <div className="overflow-hidden rounded-2xl mb-4">
+                    <img src={item.carouselImage} alt={item.title} className="aspect-4/3 w-full object-cover"/>
+                  </div>
 
-                <h3 className="mt-1 text-sm font-bold text-[#5c5c5c] line-clamp-2">
-                  {product.title}
-                </h3>
+                  <span className="rounded-lg px-3 py-1 text-xs font-semibold text-[#ed501f] bg-[#ed501f]/10">{item.category}</span>
 
-                <Link to={`${product.appPath}${search}`} className="mt-3 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-4 py-2 inline-flex text-xs font-bold text-white">
-                  Buy Now
-                </Link>
+                  <h3 className="mt-2 text-sm font-bold w-64 truncate">{item.title}</h3>
+
+                  <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
+                    <IconDownload size={14} className="text-[#ed501f]" />
+                    {item.records} · Instant download
+                  </div>
+                  <div className="flex gap-2 items-center mt-3">
+                    <div>
+                      <Link to={`${item.appPath}${search}`} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-linear-to-br from-[#ed501f] to-[#cf3101] px-4 py-2 text-sm font-semibold text-white shadow-lg hover:shadow-xl">
+                        Buy <IconArrowRight size={14} />
+                      </Link>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <p className="text-lg font-bold">{item.percentOff}% off</p>
+                      <p className="text-sm text-muted-foreground line-through">₹{item.cutPrice.toLocaleString()}</p>
+                      <p className="text-lg text-[#ed501f] font-bold">₹{item.price.toLocaleString()}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
