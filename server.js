@@ -35,36 +35,35 @@ app.post("/webhook/order-paid", async (req, res) => {
   res.status(200).send("OK");
 
   try {
-    let verifiedEmail = null;
-    let variantId = null;
+    const customerEmail =
+      order.email || order.contact_email || order.customer?.email || order.billing_address?.email;
+
+    if (!customerEmail) {
+      console.log("❌ No customer email on order");
+      return;
+    }
+
+    const attachments = [];
+    const seenPaths = new Set();
 
     for (const item of order.line_items || []) {
-      const emailProp = item.properties?.find(
-        (p) =>
-          p.name?.toLowerCase().replace(/\s+/g, "") ===
-          "otpverifiedemail"
-      );
-
-      if (emailProp?.value) {
-        verifiedEmail = emailProp.value;
-        variantId = item.variant_id?.toString();
-        break;
+      const vid = item.variant_id?.toString();
+      if (!vid || !productFileMap[vid]) continue;
+      const filePath = path.resolve(__dirname, productFileMap[vid]);
+      if (!fs.existsSync(filePath)) {
+        console.log("❌ File not found for variant", vid, filePath);
+        continue;
       }
+      if (seenPaths.has(filePath)) continue;
+      seenPaths.add(filePath);
+      attachments.push({
+        filename: path.basename(filePath),
+        path: filePath,
+      });
     }
 
-    if (!verifiedEmail) {
-      console.log("❌ OTP email not found");
-      return;
-    }
-
-    if (!productFileMap[variantId]) {
-      console.log("❌ No file mapped for variant:", variantId);
-      return;
-    }
-    const filePath = path.resolve(__dirname, productFileMap[variantId]);
-
-     if (!fs.existsSync(filePath)) {
-      console.log("❌ File not found:", filePath);
+    if (attachments.length === 0) {
+      console.log("❌ No downloadable files mapped for this order’s variants");
       return;
     }
 
@@ -84,25 +83,16 @@ app.post("/webhook/order-paid", async (req, res) => {
         minVersion: "TLSv1.2",
       },
     });
-    if (!fs.existsSync(filePath)) {
-      console.log("❌ File not found:", filePath);
-      return res.status(200).send("File missing");
-    }
+
     await transporter.sendMail({
-        from: process.env.SMTP_USER,
-        to: verifiedEmail,
-        subject: "Datastation MSME Database Purchase",
-        text: "Thanks for your purchase. Your file is attached.",
-        attachments: [
-          {
-              filename: path.basename(filePath),
-              path: filePath,
-          },
-        ],
+      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      to: customerEmail,
+      subject: "Your Datastation purchase — download attached",
+      text: "Thanks for your purchase. Your Excel file(s) are attached.",
+      attachments,
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error");
   }
 });
 
