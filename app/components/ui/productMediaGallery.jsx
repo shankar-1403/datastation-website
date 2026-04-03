@@ -6,7 +6,6 @@ const ProductMediaGallery = ({ media = [] }) => {
 
   return (
     <div className="w-full min-w-0 max-w-full overflow-hidden">
-      {/* 🔥 Main Preview */}
       <div className="w-full">
         {selectedMedia?.type === "image" ? (
           <img
@@ -32,7 +31,6 @@ const ProductMediaGallery = ({ media = [] }) => {
         )}
       </div>
 
-      {/* 🔥 Thumbnails */}
       <div className="mt-3 grid w-full grid-cols-3 gap-2 sm:grid-cols-6">
         {media.map((item, index) => (
             <button

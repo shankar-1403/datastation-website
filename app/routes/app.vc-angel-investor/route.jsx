@@ -8,28 +8,29 @@ import { DatabaseCarousel } from "../../components/DatabaseCarousel";
 import { openShopifyCheckout } from "../../lib/shopifyCheckout";
 import Breadcrumb from "../../components/ui/Breadcrumb";
 
-const THIRTYMSME_HANDLE = DATA_PRODUCTS.find((p) => p.id === "msme-30k")?.handle ?? "30-000-msme-database";
+const VC_INVESTOR_HANDLE =
+  DATA_PRODUCTS.find((p) => p.id === "vc-250")?.handle ?? "top-250-vc-angels-investor-india";
 
 export const loader = async ({ request }) => {
   await authenticate.admin(request);
   const storefrontBase = process.env.PUBLIC_SHOPIFY_CART_BASE_URL || "https://datastation.myshopify.com";
   return {
     shopifyCartBaseUrl: storefrontBase,
-    shopifyThirtyMSMEVariantId: process.env.PUBLIC_SHOPIFY_THIRTYMSME_VARIANT_ID || "",
+    shopifyVcInvestorVariantId: process.env.PUBLIC_SHOPIFY_VC_INVESTOR_VARIANT_ID || "",
     shopifyProductFallbackUrl:
-      process.env.PUBLIC_SHOPIFY_THIRTYMSME_PRODUCT_URL ||
-      productUrl(storefrontBase, THIRTYMSME_HANDLE),
+      process.env.PUBLIC_SHOPIFY_VC_INVESTOR_PRODUCT_URL ||
+      productUrl(storefrontBase, VC_INVESTOR_HANDLE),
   };
 };
 
-export default function ThirtyKMsmePage() {
-  const { shopifyCartBaseUrl, shopifyThirtyMSMEVariantId, shopifyProductFallbackUrl } = useLoaderData();
+export default function VcAngelInvestorPage() {
+  const { shopifyCartBaseUrl, shopifyVcInvestorVariantId, shopifyProductFallbackUrl } = useLoaderData();
 
   const handleBuy = () => {
     if (
       openShopifyCheckout({
         cartBaseUrl: shopifyCartBaseUrl,
-        variantId: shopifyThirtyMSMEVariantId,
+        variantId: shopifyVcInvestorVariantId,
       })
     ) {
       return;
@@ -38,7 +39,7 @@ export default function ThirtyKMsmePage() {
   };
 
   const mediaData = [
-    { type: "image", src: "/30k.webp" },
+    { type: "image", src: "/250_plus.webp" },
     { type: "image", src: "/all_product.webp" },
     { type: "video", src: "/data_video.mp4" },
   ];
@@ -52,12 +53,12 @@ export default function ThirtyKMsmePage() {
     };
   };
 
-  const item = getProductPrice("msme-30k");
-
+  const item = getProductPrice("vc-250");
+  
   const breadcrumbItems = [
     { label: "Home", href: "/app" },
     { label: "Products", href: "/app/products" },
-    { label: "30,000 MSME Database" }, 
+    { label: "Top 250+ VC & Angel Investors in India" },
   ];
 
   return (
@@ -74,19 +75,11 @@ export default function ThirtyKMsmePage() {
             <ProductMediaGallery media={mediaData} />
           </div>
           <div className="min-w-0">
-            <h1 className="font-heading font-bold leading-[1.1] tracking-tight text-[#ed501f] sm:text-4xl md:text-3xl lg:text-5xl">
-              30,000 MSME Database
-            </h1>
-            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">
-              The 30,000 MSME Database provides access to a structured dataset of MSME companies across India.
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">
-              This dataset is designed for professionals who want to connect with businesses for sales, partnerships,
-              research, or outreach campaigns.
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">
-              The data is organized and delivered in Excel format so it can be easily filtered, sorted, and used.
-            </p>
+            <h1 className="font-heading font-bold leading-[1.1] tracking-tight text-[#ed501f] sm:text-4xl md:text-3xl lg:text-5xl">Top 250+ VC & Angel Investors in India</h1>
+            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">The Top 250+ VC & Angel Investors in India Database provides a curated list of active venture capital firms and angel investors across India.</p>
+            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">This dataset is designed for startup founders, consultants, and professionals who want to understand the Indian investment ecosystem and identify potential investors.</p>
+            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">The database includes key information about venture capital firms and angel investors operating in India’s major startup hubs.</p>
+            <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">The dataset is organized and delivered in Excel format, making it easy to filter, analyze, and explore investor profiles.</p>
             <div className="mt-6 max-w-lg rounded-2xl border border-[#ed501f]/30 bg-[#fff8f5] p-5 transition-all duration-300">
               <p className="text-sm leading-relaxed text-[#5c5c5c]">After payment, your Excel file is delivered to the email you enter at checkout.</p>
               <div className="flex items-center gap-1">
@@ -101,7 +94,7 @@ export default function ThirtyKMsmePage() {
       </div>
       <div className="pt-10">
         <h2 className="font-heading font-bold text-[#ed501f] sm:text-4xl md:text-3xl lg:text-2xl">Other Related Products</h2>
-        <DatabaseCarousel excludeProductId="msme-30k" />
+        <DatabaseCarousel excludeProductId="vc-250" />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { authenticate } from "../../shopify.server";
 import ProductMediaGallery from "../../components/ui/productMediaGallery";
 import { DatabaseCarousel } from "../../components/DatabaseCarousel";
 import { openShopifyCheckout } from "../../lib/shopifyCheckout";
+import Breadcrumb from "../../components/ui/Breadcrumb";
 
 const FORTYMSME_HANDLE = DATA_PRODUCTS.find((p) => p.id === "msme-40k")?.handle ?? "40-000-msme-database";
 
@@ -53,25 +54,27 @@ export default function FortyKMsmePage() {
 
   const item = getProductPrice("msme-40k");
 
+  const breadcrumbItems = [
+    { label: "Home", href: "/app" },
+    { label: "Products", href: "/app/products" },
+    { label: "40,000 MSME Database" }, 
+  ];
+  
   return (
     <div className="max-w-full overflow-x-hidden bg-white px-4 pb-20 pt-20 sm:px-6 sm:pt-24 lg:px-8 lg:pt-30 min-[1100px]:px-13">
       <div className="mb-8 space-y-4 text-sm leading-relaxed">
-        <span className="font-bold text-[#5c5c5c]">Overview</span>
-        <svg
-          viewBox="0 0 1000 30"
-          preserveAspectRatio="none"
-          className="w-full"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ height: "30px" }}
-        >
-          <path d="M1 20 L520 20 L540 8 L1000 8" fill="none" stroke="#5c5c5c" strokeWidth="1" />
-        </svg>
+        <div>
+          <Breadcrumb items={breadcrumbItems} />
+          <svg viewBox="0 0 1000 30" preserveAspectRatio="none" className="w-full" xmlns="http://www.w3.org/2000/svg" style={{ height: "30px" }}>
+            <path d="M1 20 L520 20 L540 8 L1000 8" fill="none" stroke="#ed501f" strokeWidth="1" />
+          </svg>
+        </div>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-start lg:gap-10">
           <div className="min-w-0">
             <ProductMediaGallery media={mediaData} />
           </div>
           <div className="min-w-0">
-            <h1 className="font-heading text-2xl font-bold leading-[1.1] tracking-tight text-[#ed501f] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+            <h1 className="font-heading font-bold leading-[1.1] tracking-tight text-[#ed501f] sm:text-4xl md:text-3xl lg:text-5xl">
               40,000 MSME Database
             </h1>
             <p className="mt-4 text-base leading-relaxed text-[#5c5c5c] sm:mt-5 sm:text-lg">
@@ -96,7 +99,10 @@ export default function FortyKMsmePage() {
           </div>
         </div>
       </div>
-      <DatabaseCarousel excludeProductId="msme-40k" />
+      <div className="pt-10">
+        <h2 className="font-heading font-bold text-[#ed501f] sm:text-4xl md:text-3xl lg:text-2xl">Other Related Products</h2>
+        <DatabaseCarousel excludeProductId="msme-40k" />
+      </div>
     </div>
   );
 }
